@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "./DeleteButton";
 
@@ -9,59 +10,186 @@ export default async function ArticlesPage() {
     },
   });
 
+  const totalArticles = articles.length;
+  const publishedArticles = articles.filter(
+    (article) => article.published
+  ).length;
+
+  const breakingArticles = articles.filter(
+    (article) => article.breaking
+  ).length;
+
+  const featuredArticles = articles.filter(
+    (article) => article.featured
+  ).length;
+
+  const trendingArticles = articles.filter(
+    (article) => article.trending
+  ).length;
+
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-7xl">
+    <main className="min-h-screen bg-slate-100">
+      <div className="mx-auto max-w-7xl px-6 py-8">
 
         <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Articles</h1>
 
-            <p className="text-gray-600">
-              Manage all published articles.
+          <div>
+            <h1 className="text-4xl font-bold">
+              Africana CMS
+            </h1>
+
+            <p className="mt-2 text-gray-600">
+              Professional News Management Dashboard
             </p>
           </div>
 
           <Link
             href="/admin/articles/new"
-            className="rounded-lg bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-700"
+            className="rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700"
           >
             + New Article
           </Link>
+
         </div>
 
-        <div className="overflow-hidden rounded-xl bg-white shadow">
+        <div className="mb-8 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+
+          <div className="rounded-xl bg-white p-6 shadow">
+            <p className="text-gray-500">
+              Total Articles
+            </p>
+
+            <h2 className="mt-2 text-4xl font-bold">
+              {totalArticles}
+            </h2>
+          </div>
+
+          <div className="rounded-xl bg-green-50 p-6 shadow">
+            <p className="text-green-700">
+              Published
+            </p>
+
+            <h2 className="mt-2 text-4xl font-bold text-green-700">
+              {publishedArticles}
+            </h2>
+          </div>
+
+          <div className="rounded-xl bg-red-50 p-6 shadow">
+            <p className="text-red-700">
+              Breaking
+            </p>
+
+            <h2 className="mt-2 text-4xl font-bold text-red-700">
+              {breakingArticles}
+            </h2>
+          </div>
+
+          <div className="rounded-xl bg-yellow-50 p-6 shadow">
+            <p className="text-yellow-700">
+              Featured
+            </p>
+
+            <h2 className="mt-2 text-4xl font-bold text-yellow-700">
+              {featuredArticles}
+            </h2>
+          </div>
+
+          <div className="rounded-xl bg-blue-50 p-6 shadow">
+            <p className="text-blue-700">
+              Trending
+            </p>
+
+            <h2 className="mt-2 text-4xl font-bold text-blue-700">
+              {trendingArticles}
+            </h2>
+          </div>
+
+        </div>
+
+        <div className="overflow-hidden rounded-2xl bg-white shadow-xl">
 
           <table className="min-w-full">
 
-            <thead className="bg-gray-100">
+            <thead className="bg-slate-100">
+
               <tr>
-                <th className="p-4 text-left">Title</th>
-                <th className="p-4 text-left">Category</th>
-                <th className="p-4 text-left">Author</th>
-                <th className="p-4 text-left">Published</th>
-                <th className="p-4 text-left">Actions</th>
+
+                <th className="p-4 text-left">
+                  Image
+                </th>
+
+                <th className="p-4 text-left">
+                  Title
+                </th>
+
+                <th className="p-4 text-left">
+                  Category
+                </th>
+
+                <th className="p-4 text-left">
+                  Status
+                </th>
+
+                <th className="p-4 text-left">
+                  Published
+                </th>
+
+                <th className="p-4 text-left">
+                  Actions
+                </th>
+
               </tr>
+
             </thead>
 
             <tbody>
-              {articles.length === 0 ? (
+  {articles.length === 0 ? (
+
                 <tr>
+
                   <td
-                    colSpan={5}
-                    className="p-8 text-center text-gray-500"
+                    colSpan={6}
+                    className="p-10 text-center text-gray-500"
                   >
                     No articles found.
                   </td>
+
                 </tr>
+
               ) : (
+
                 articles.map((article) => (
+
                   <tr
                     key={article.id}
-                    className="border-t hover:bg-gray-50"
+                    className="border-t hover:bg-slate-50 transition"
                   >
-                    <td className="p-4 font-medium">
-                      {article.title}
+
+                    <td className="p-4">
+
+                      <div className="relative h-20 w-28 overflow-hidden rounded-lg">
+
+                        <Image
+                          src={article.image || "/placeholder.jpg"}
+                          alt={article.title}
+                          fill
+                          className="object-cover"
+                        />
+
+                      </div>
+
+                    </td>
+
+                    <td className="p-4">
+
+                      <h3 className="font-bold">
+                        {article.title}
+                      </h3>
+
+                      <p className="mt-1 text-sm text-gray-500">
+                        {article.author || "Africana News"}
+                      </p>
+
                     </td>
 
                     <td className="p-4">
@@ -69,35 +197,83 @@ export default async function ArticlesPage() {
                     </td>
 
                     <td className="p-4">
-                      {article.author || "-"}
+
+                      <div className="flex flex-wrap gap-2">
+
+                        {article.published ? (
+                          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                            Published
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold">
+                            Draft
+                          </span>
+                        )}
+
+                        {article.breaking && (
+                          <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">
+                            BREAKING
+                          </span>
+                        )}
+
+                        {article.featured && (
+                          <span className="rounded-full bg-yellow-400 px-3 py-1 text-xs font-semibold">
+                            FEATURED
+                          </span>
+                        )}
+
+                        {article.trending && (
+                          <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
+                            TRENDING
+                          </span>
+                        )}
+
+                      </div>
+
                     </td>
 
                     <td className="p-4">
-                      {new Date(article.publishedAt).toLocaleDateString()}
+
+                      {new Date(
+                        article.publishedAt
+                      ).toLocaleDateString()}
+
                     </td>
 
-                    <td className="p-4 flex gap-2">
+                    <td className="p-4">
 
-                      <Link
-                        href={`/admin/articles/edit/${article.id}`}
-                        className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-                      >
-                        Edit
-                      </Link>
+                      <div className="flex flex-wrap gap-2">
 
-                      <DeleteButton id={article.id} />
+                        <Link
+                          href={`/article/${article.slug}`}
+                          className="rounded-lg bg-gray-700 px-4 py-2 text-sm font-semibold text-white hover:bg-black"
+                        >
+                          View
+                        </Link>
+
+                        <Link
+                          href={`/admin/articles/edit/${article.id}`}
+                          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                        >
+                          Edit
+                        </Link>
+
+                        <DeleteButton id={article.id} />
+
+                      </div>
 
                     </td>
 
                   </tr>
+
                 ))
-              )}
+
+              )}                                                                                                                                                                                                                                                                                                                                                                                                          
             </tbody>
-
           </table>
-
         </div>
       </div>
     </main>
   );
 }
+        
