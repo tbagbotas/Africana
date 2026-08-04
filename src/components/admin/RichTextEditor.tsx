@@ -30,16 +30,30 @@ export default function RichTextEditor({
 
       <div className="flex gap-2 border-b bg-gray-100 p-3">
 
+        {/* Bold */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`rounded px-3 py-1 font-bold ${
             editor.isActive("bold")
               ? "bg-emerald-600 text-white"
-              : "bg-white border"
+              : "border bg-white"
           }`}
         >
           B
+        </button>
+
+        {/* Italic */}
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={`rounded px-3 py-1 italic ${
+            editor.isActive("italic")
+              ? "bg-emerald-600 text-white"
+              : "border bg-white"
+          }`}
+        >
+          I
         </button>
 
       </div>
