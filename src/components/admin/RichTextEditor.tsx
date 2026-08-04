@@ -98,7 +98,29 @@ export default function RichTextEditor({
         >
           H2
         </button>
+<button
+  type="button"
+  onClick={() => editor.chain().focus().toggleBulletList().run()}
+  className={`rounded px-3 py-1 ${
+    editor.isActive("bulletList")
+      ? "bg-emerald-600 text-white"
+      : "border bg-white"
+  }`}
+>
+  •
+</button>
 
+<button
+  type="button"
+  onClick={() => editor.chain().focus().toggleOrderedList().run()}
+  className={`rounded px-3 py-1 ${
+    editor.isActive("orderedList")
+      ? "bg-emerald-600 text-white"
+      : "border bg-white"
+  }`}
+>
+  1.
+</button>
       </div>
 
       {/* Editor */}

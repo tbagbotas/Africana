@@ -1,5 +1,4 @@
 import ToolbarButton from "./ToolbarButton";
-
 import type { Editor } from "@tiptap/react";
 
 interface EditorToolbarProps {
@@ -30,6 +29,38 @@ export default function EditorToolbar({
         label="U"
         active={editor.isActive("underline")}
         onClick={() => editor.chain().focus().toggleUnderline().run()}
+      />
+
+      <ToolbarButton
+        label="H1"
+        active={editor.isActive("heading", { level: 1 })}
+        onClick={() =>
+          editor.chain().focus().toggleHeading({ level: 1 }).run()
+        }
+      />
+
+      <ToolbarButton
+        label="H2"
+        active={editor.isActive("heading", { level: 2 })}
+        onClick={() =>
+          editor.chain().focus().toggleHeading({ level: 2 }).run()
+        }
+      />
+
+      <ToolbarButton
+        label="•"
+        active={editor.isActive("bulletList")}
+        onClick={() =>
+          editor.chain().focus().toggleBulletList().run()
+        }
+      />
+
+      <ToolbarButton
+        label="1."
+        active={editor.isActive("orderedList")}
+        onClick={() =>
+          editor.chain().focus().toggleOrderedList().run()
+        }
       />
 
     </div>
