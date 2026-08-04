@@ -2,6 +2,7 @@
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
 
 interface RichTextEditorProps {
   content: string;
@@ -13,7 +14,10 @@ export default function RichTextEditor({
   onChange,
 }: RichTextEditorProps) {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Underline,
+    ],
     content: content || "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -54,6 +58,19 @@ export default function RichTextEditor({
           }`}
         >
           I
+        </button>
+
+        {/* Underline */}
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          className={`rounded px-3 py-1 underline ${
+            editor.isActive("underline")
+              ? "bg-emerald-600 text-white"
+              : "border bg-white"
+          }`}
+        >
+          U
         </button>
 
       </div>
