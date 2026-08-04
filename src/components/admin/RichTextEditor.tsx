@@ -27,13 +27,27 @@ export default function RichTextEditor({
 
   return (
     <div className="rounded-lg border border-gray-300 bg-white">
-      <div className="border-b bg-gray-100 px-4 py-2 font-semibold">
-        Rich Text Editor
+
+      <div className="flex gap-2 border-b bg-gray-100 p-3">
+
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={`rounded px-3 py-1 font-bold ${
+            editor.isActive("bold")
+              ? "bg-emerald-600 text-white"
+              : "bg-white border"
+          }`}
+        >
+          B
+        </button>
+
       </div>
 
       <div className="p-4">
         <EditorContent editor={editor} />
       </div>
+
     </div>
   );
 }
