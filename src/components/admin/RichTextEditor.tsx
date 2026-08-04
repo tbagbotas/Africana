@@ -30,11 +30,11 @@ export default function RichTextEditor({
   }
 
   return (
-    <div className="rounded-lg border border-gray-300 bg-white">
+    <div className="rounded-lg border border-gray-300 bg-white shadow">
 
-      <div className="flex gap-2 border-b bg-gray-100 p-3">
+      {/* Toolbar */}
+      <div className="flex flex-wrap gap-2 border-b bg-gray-100 p-3">
 
-        {/* Bold */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -47,7 +47,6 @@ export default function RichTextEditor({
           B
         </button>
 
-        {/* Italic */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -60,7 +59,6 @@ export default function RichTextEditor({
           I
         </button>
 
-        {/* Underline */}
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -73,9 +71,38 @@ export default function RichTextEditor({
           U
         </button>
 
+        <button
+          type="button"
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
+          className={`rounded px-3 py-1 ${
+            editor.isActive("heading", { level: 1 })
+              ? "bg-emerald-600 text-white"
+              : "border bg-white"
+          }`}
+        >
+          H1
+        </button>
+
+        <button
+          type="button"
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={`rounded px-3 py-1 ${
+            editor.isActive("heading", { level: 2 })
+              ? "bg-emerald-600 text-white"
+              : "border bg-white"
+          }`}
+        >
+          H2
+        </button>
+
       </div>
 
-      <div className="p-4">
+      {/* Editor */}
+      <div className="p-4 min-h-[400px]">
         <EditorContent editor={editor} />
       </div>
 
