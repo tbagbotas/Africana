@@ -1,10 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
+
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
@@ -14,21 +16,58 @@ export default function RichTextEditor({
   content,
   onChange,
 }: RichTextEditorProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const editor = useEditor({
     extensions: [
-  StarterKit,
-  Underline,
-  Image,
-  Link.configure({
-    openOnClick: false,
-  }),
-],
+      StarterKit,
+      Underline,
+      Image,
+      Link.configure({
+        openOnClick: false,
+      }),
+    ],
     content: content || "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
   });
+
+  async function handleInlineImage(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const file = event.target.files?.[0];
+
+    if (!file || !editor) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Upload failed");
+      }
+
+      editor
+        .chain()
+        .focus()
+        .setImage({
+          src: data.imageUrl,
+        })
+        .run();
+    } catch (error) {
+      console.error(error);
+      alert("Image upload failed.");
+    }
+  }
 
   if (!editor) {
     return <p>Loading editor...</p>;
@@ -164,18 +203,28 @@ export default function RichTextEditor({
         >
           ↷
         </button>
-<button
-  type="button"
-  onClick={() => alert("Image upload coming next!")}
-  className="rounded border bg-white px-3 py-1"
->
-  🖼️
-</button>
+
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="rounded border bg-white px-3 py-1"
+        >
+          🖼️
+        </button>
+
       </div>
 
       <div className="min-h-[400px] p-4">
         <EditorContent editor={editor} />
       </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleInlineImage}
+      />
 
     </div>
   );
