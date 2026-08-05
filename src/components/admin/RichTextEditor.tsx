@@ -4,6 +4,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
+
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
@@ -15,10 +16,12 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
-  StarterKit,
-  Underline,
-  Link,
-],
+      StarterKit,
+      Underline,
+      Link.configure({
+        openOnClick: false,
+      }),
+    ],
     content: content || "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -33,7 +36,6 @@ export default function RichTextEditor({
   return (
     <div className="rounded-lg border border-gray-300 bg-white shadow">
 
-      {/* Toolbar */}
       <div className="flex flex-wrap gap-2 border-b bg-gray-100 p-3">
 
         <button
@@ -99,53 +101,72 @@ export default function RichTextEditor({
         >
           H2
         </button>
-<button
-  type="button"
-  onClick={() => editor.chain().focus().toggleBulletList().run()}
-  className={`rounded px-3 py-1 ${
-    editor.isActive("bulletList")
-      ? "bg-emerald-600 text-white"
-      : "border bg-white"
-  }`}
->
-  •
-</button>
 
-<button
-  type="button"
-  onClick={() => editor.chain().focus().toggleOrderedList().run()}
-  className={`rounded px-3 py-1 ${
-    editor.isActive("orderedList")
-      ? "bg-emerald-600 text-white"
-      : "border bg-white"
-  }`}
->
-  1.
-</button>
+        <button
+          type="button"
+          onClick={() =>
+            editor.chain().focus().toggleBulletList().run()
+          }
+          className={`rounded px-3 py-1 ${
+            editor.isActive("bulletList")
+              ? "bg-emerald-600 text-white"
+              : "border bg-white"
+          }`}
+        >
+          •
+        </button>
+
+        <button
+          type="button"
+          onClick={() =>
+            editor.chain().focus().toggleOrderedList().run()
+          }
+          className={`rounded px-3 py-1 ${
+            editor.isActive("orderedList")
+              ? "bg-emerald-600 text-white"
+              : "border bg-white"
+          }`}
+        >
+          1.
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            const url = prompt("Enter URL");
+
+            if (url) {
+              editor.chain().focus().setLink({ href: url }).run();
+            }
+          }}
+          className={`rounded px-3 py-1 ${
+            editor.isActive("link")
+              ? "bg-emerald-600 text-white"
+              : "border bg-white"
+          }`}
+        >
+          🔗
+        </button>
+
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().undo().run()}
+          className="rounded border bg-white px-3 py-1"
+        >
+          ↶
+        </button>
+
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().redo().run()}
+          className="rounded border bg-white px-3 py-1"
+        >
+          ↷
+        </button>
+
       </div>
-<button
-  type="button"
-  onClick={() => {
-    const url = prompt("Enter URL");
 
-    if (url) {
-      editor
-        .chain()
-        .focus()
-        .setLink({ href: url })
-        .run();
-    }
-  }}
-  className={`rounded px-3 py-1 ${
-    editor.isActive("link")
-      ? "bg-emerald-600 text-white"
-      : "border bg-white"
-  }`}
->
-  🔗
-</button>
-      {/* Editor */}
-      <div className="p-4 min-h-[400px]">
+      <div className="min-h-[400px] p-4">
         <EditorContent editor={editor} />
       </div>
 
