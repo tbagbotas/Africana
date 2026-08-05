@@ -3,7 +3,7 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-
+import Link from "@tiptap/extension-link";
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
@@ -15,9 +15,10 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Underline,
-    ],
+  StarterKit,
+  Underline,
+  Link,
+],
     content: content || "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -122,7 +123,27 @@ export default function RichTextEditor({
   1.
 </button>
       </div>
+<button
+  type="button"
+  onClick={() => {
+    const url = prompt("Enter URL");
 
+    if (url) {
+      editor
+        .chain()
+        .focus()
+        .setLink({ href: url })
+        .run();
+    }
+  }}
+  className={`rounded px-3 py-1 ${
+    editor.isActive("link")
+      ? "bg-emerald-600 text-white"
+      : "border bg-white"
+  }`}
+>
+  🔗
+</button>
       {/* Editor */}
       <div className="p-4 min-h-[400px]">
         <EditorContent editor={editor} />
