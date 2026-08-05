@@ -4,7 +4,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
-
+import Image from "@tiptap/extension-image";
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
@@ -16,12 +16,13 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Underline,
-      Link.configure({
-        openOnClick: false,
-      }),
-    ],
+  StarterKit,
+  Underline,
+  Image,
+  Link.configure({
+    openOnClick: false,
+  }),
+],
     content: content || "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -163,7 +164,13 @@ export default function RichTextEditor({
         >
           ↷
         </button>
-
+<button
+  type="button"
+  onClick={() => alert("Image upload coming next!")}
+  className="rounded border bg-white px-3 py-1"
+>
+  🖼️
+</button>
       </div>
 
       <div className="min-h-[400px] p-4">
