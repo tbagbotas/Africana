@@ -4,6 +4,8 @@ import { useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import PublishSidebar from "./PublishSidebar";
 import ImageUpload from "./ImageUpload";
+import ArticlePreview from "../admin/ArticlePreview";
+import SeoPanel from "./editor/SeoPanel";
 
 export default function ArticleForm() {
   const [title, setTitle] = useState("");
@@ -15,6 +17,10 @@ export default function ArticleForm() {
   const [category, setCategory] = useState("General");
   const [author, setAuthor] = useState("Africana News");
   const [tags, setTags] = useState("");
+
+  const [seoTitle, setSeoTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [keywords, setKeywords] = useState("");
 
   const [featured, setFeatured] = useState(false);
   const [trending, setTrending] = useState(false);
@@ -39,6 +45,11 @@ export default function ArticleForm() {
           category,
           author,
           tags,
+
+          seoTitle,
+          metaDescription,
+          keywords,
+
           featured,
           trending,
           breaking,
@@ -57,9 +68,15 @@ export default function ArticleForm() {
       setSubtitle("");
       setContent("");
       setImage("");
+
       setCategory("General");
       setAuthor("Africana News");
       setTags("");
+
+      setSeoTitle("");
+      setMetaDescription("");
+      setKeywords("");
+
       setFeatured(false);
       setTrending(false);
       setBreaking(false);
@@ -110,14 +127,20 @@ export default function ArticleForm() {
               </div>
 
               <RichTextEditor
-                value={content}
+                content={content}
                 onChange={setContent}
               />
 
               <ImageUpload
                 image={image}
                 setImage={setImage}
-              />            </div>
+              />              <ArticlePreview
+                title={title}
+                subtitle={subtitle}
+                content={content}
+                image={image}
+              />
+            </div>
           </div>
         </div>
 
@@ -135,6 +158,15 @@ export default function ArticleForm() {
             setTrending={setTrending}
             breaking={breaking}
             setBreaking={setBreaking}
+          />
+
+          <SeoPanel
+            seoTitle={seoTitle}
+            setSeoTitle={setSeoTitle}
+            metaDescription={metaDescription}
+            setMetaDescription={setMetaDescription}
+            keywords={keywords}
+            setKeywords={setKeywords}
           />
 
           <div className="rounded-xl bg-white p-6 shadow">
