@@ -20,17 +20,17 @@ export default function RichTextEditor({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const editor = useEditor({
- extensions: [
-  StarterKit,
-  Underline,
-  Image,
-  Placeholder.configure({
-    placeholder: "Start writing your article...",
-  }),
-  Link.configure({
-    openOnClick: false,
-  }),
-],
+    extensions: [
+      StarterKit,
+      Underline,
+      Image,
+      Placeholder.configure({
+        placeholder: "Start writing your article...",
+      }),
+      Link.configure({
+        openOnClick: false,
+      }),
+    ],
     content: content || "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -79,9 +79,7 @@ export default function RichTextEditor({
 
   return (
     <div className="rounded-lg border border-gray-300 bg-white shadow">
-
       <div className="flex flex-wrap gap-2 border-b bg-gray-100 p-3">
-
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -148,9 +146,7 @@ export default function RichTextEditor({
 
         <button
           type="button"
-          onClick={() =>
-            editor.chain().focus().toggleBulletList().run()
-          }
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={`rounded px-3 py-1 ${
             editor.isActive("bulletList")
               ? "bg-emerald-600 text-white"
@@ -162,9 +158,7 @@ export default function RichTextEditor({
 
         <button
           type="button"
-          onClick={() =>
-            editor.chain().focus().toggleOrderedList().run()
-          }
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={`rounded px-3 py-1 ${
             editor.isActive("orderedList")
               ? "bg-emerald-600 text-white"
@@ -208,17 +202,20 @@ export default function RichTextEditor({
           ↷
         </button>
 
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="rounded border bg-white px-3 py-1"
-        >
-          🖼️
-        </button>
+       <button
+  type="button"
+  onClick={() => fileInputRef.current?.click()}
+  className="rounded border bg-white px-3 py-1"
+>
+  🖼️
+</button>
+
 <button
   type="button"
   onClick={() => {
-    const img = editor.view.dom.querySelector("img:last-of-type") as HTMLImageElement;
+    const img = editor.view.dom.querySelector(
+      "img:last-of-type"
+    ) as HTMLImageElement | null;
 
     if (img) {
       img.style.width = "30%";
@@ -229,11 +226,12 @@ export default function RichTextEditor({
   S
 </button>
 
-
 <button
   type="button"
   onClick={() => {
-    const img = editor.view.dom.querySelector("img:last-of-type") as HTMLImageElement;
+    const img = editor.view.dom.querySelector(
+      "img:last-of-type"
+    ) as HTMLImageElement | null;
 
     if (img) {
       img.style.width = "60%";
@@ -247,7 +245,9 @@ export default function RichTextEditor({
 <button
   type="button"
   onClick={() => {
-    const img = editor.view.dom.querySelector("img:last-of-type") as HTMLImageElement;
+    const img = editor.view.dom.querySelector(
+      "img:last-of-type"
+    ) as HTMLImageElement | null;
 
     if (img) {
       img.style.width = "100%";
@@ -257,7 +257,8 @@ export default function RichTextEditor({
 >
   L
 </button>
-      </div>
+
+</div>
 
       <div className="min-h-[400px] p-4">
         <EditorContent editor={editor} />
@@ -270,7 +271,6 @@ export default function RichTextEditor({
         className="hidden"
         onChange={handleInlineImage}
       />
-
     </div>
   );
 }
