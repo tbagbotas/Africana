@@ -6,6 +6,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
+import Placeholder from "@tiptap/extension-placeholder";
 
 interface RichTextEditorProps {
   content: string;
@@ -19,14 +20,17 @@ export default function RichTextEditor({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Image,
-      Link.configure({
-        openOnClick: false,
-      }),
-    ],
+ extensions: [
+  StarterKit,
+  Underline,
+  Image,
+  Placeholder.configure({
+    placeholder: "Start writing your article...",
+  }),
+  Link.configure({
+    openOnClick: false,
+  }),
+],
     content: content || "<p>Start writing your article...</p>",
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -211,7 +215,48 @@ export default function RichTextEditor({
         >
           🖼️
         </button>
+<button
+  type="button"
+  onClick={() => {
+    const img = editor.view.dom.querySelector("img:last-of-type") as HTMLImageElement;
 
+    if (img) {
+      img.style.width = "30%";
+    }
+  }}
+  className="rounded border bg-white px-3 py-1"
+>
+  S
+</button>
+
+
+<button
+  type="button"
+  onClick={() => {
+    const img = editor.view.dom.querySelector("img:last-of-type") as HTMLImageElement;
+
+    if (img) {
+      img.style.width = "60%";
+    }
+  }}
+  className="rounded border bg-white px-3 py-1"
+>
+  M
+</button>
+
+<button
+  type="button"
+  onClick={() => {
+    const img = editor.view.dom.querySelector("img:last-of-type") as HTMLImageElement;
+
+    if (img) {
+      img.style.width = "100%";
+    }
+  }}
+  className="rounded border bg-white px-3 py-1"
+>
+  L
+</button>
       </div>
 
       <div className="min-h-[400px] p-4">
