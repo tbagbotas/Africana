@@ -43,6 +43,26 @@ useDraft("draft-image", image, setImage);
 useDraft("draft-featured", featured, setFeatured);
 useDraft("draft-trending", trending, setTrending);
 useDraft("draft-breaking", breaking, setBreaking);
+useEffect(() => {
+  const savedMedia = localStorage.getItem("media-library");
+
+  if (!savedMedia) return;
+
+  queueMicrotask(() => {
+    try {
+      setMediaLibrary(JSON.parse(savedMedia));
+    } catch (error) {
+      console.error("Failed to load media library:", error);
+    }
+  });
+}, []);
+
+useEffect(() => {
+  localStorage.setItem(
+    "media-library",
+    JSON.stringify(mediaLibrary)
+  );
+}, [mediaLibrary]);
   async function publishArticle() {
     try {
       setPublishing(true);
