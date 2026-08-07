@@ -6,7 +6,7 @@ import PublishSidebar from "./PublishSidebar";
 import ImageUpload from "./ImageUpload";
 import ArticlePreview from "../admin/ArticlePreview";
 import SeoPanel from "./editor/SeoPanel";
-
+import { useDraft } from "./useDraft";
 export default function ArticleForm() {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -28,7 +28,20 @@ export default function ArticleForm() {
   const [breaking, setBreaking] = useState(false);
 
   const [publishing, setPublishing] = useState(false);
-
+useDraft("draft-title", title, setTitle);
+useDraft("draft-subtitle", subtitle, setSubtitle);
+useDraft("draft-slug", slug, setSlug);
+useDraft("draft-content", content, setContent);
+useDraft("draft-seo-title", seoTitle, setSeoTitle);
+useDraft("draft-meta-description", metaDescription, setMetaDescription);
+useDraft("draft-keywords", keywords, setKeywords);
+useDraft("draft-category", category, setCategory);
+useDraft("draft-author", author, setAuthor);
+useDraft("draft-tags", tags, setTags);
+useDraft("draft-image", image, setImage);
+useDraft("draft-featured", featured, setFeatured);
+useDraft("draft-trending", trending, setTrending);
+useDraft("draft-breaking", breaking, setBreaking);
   async function publishArticle() {
     try {
       setPublishing(true);
@@ -81,6 +94,20 @@ export default function ArticleForm() {
       setFeatured(false);
       setTrending(false);
       setBreaking(false);
+      localStorage.removeItem("draft-title");
+localStorage.removeItem("draft-subtitle");
+localStorage.removeItem("draft-slug");
+localStorage.removeItem("draft-content");
+localStorage.removeItem("draft-seo-title");
+localStorage.removeItem("draft-meta-description");
+localStorage.removeItem("draft-keywords");
+localStorage.removeItem("draft-category");
+localStorage.removeItem("draft-author");
+localStorage.removeItem("draft-tags");
+localStorage.removeItem("draft-image");
+localStorage.removeItem("draft-featured");
+localStorage.removeItem("draft-trending");
+localStorage.removeItem("draft-breaking");
     } catch (error) {
       console.error(error);
       alert("❌ Failed to publish article.");
