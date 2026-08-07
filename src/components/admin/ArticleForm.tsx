@@ -10,6 +10,7 @@ import SeoPanel from "./editor/SeoPanel";
 export default function ArticleForm() {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [content, setContent] = useState("");
 
   const [image, setImage] = useState("");
@@ -104,16 +105,41 @@ export default function ArticleForm() {
                 </label>
 
                 <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Article title..."
-                  className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-emerald-600"
-                />
+  type="text"
+  value={title}
+ onChange={(e) => {
+  const value = e.target.value;
+
+  setTitle(value);
+
+  setSlug(
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+  );
+}}
+  placeholder="Article title..."
+  className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-emerald-600"
+/>
               </div>
 
               <div>
                 <label className="mb-2 block font-semibold">
+                  <div>
+  <label className="mb-2 block font-semibold">
+    Slug
+  </label>
+
+  <input
+    type="text"
+    value={slug}
+    onChange={(e) => setSlug(e.target.value)}
+    placeholder="article-url-slug"
+    className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-emerald-600"
+  />
+</div>
                   Subtitle
                 </label>
 
