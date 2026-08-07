@@ -27,7 +27,8 @@ const [mediaLibrary, setMediaLibrary] = useState<string[]>([]);
   const [featured, setFeatured] = useState(false);
   const [trending, setTrending] = useState(false);
   const [breaking, setBreaking] = useState(false);
-
+const [publishDate, setPublishDate] = useState("");
+const [publishTime, setPublishTime] = useState("");
   const [publishing, setPublishing] = useState(false);
 useDraft("draft-title", title, setTitle);
 useDraft("draft-subtitle", subtitle, setSubtitle);
@@ -84,7 +85,8 @@ useEffect(() => {
           seoTitle,
           metaDescription,
           keywords,
-
+publishDate,
+publishTime,
           featured,
           trending,
           breaking,
@@ -228,6 +230,39 @@ localStorage.removeItem("draft-breaking");
     setImage(selectedImage);
   }}
 />
+<div className="rounded-xl bg-white p-6 shadow">
+  <h2 className="mb-4 text-lg font-bold">
+    Schedule Article
+  </h2>
+
+  <div className="space-y-4">
+    <div>
+      <label className="mb-2 block font-semibold">
+        Publish Date
+      </label>
+
+      <input
+        type="date"
+        value={publishDate}
+        onChange={(e) => setPublishDate(e.target.value)}
+        className="w-full rounded-lg border border-gray-300 p-3"
+      />
+    </div>
+
+    <div>
+      <label className="mb-2 block font-semibold">
+        Publish Time
+      </label>
+
+      <input
+        type="time"
+        value={publishTime}
+        onChange={(e) => setPublishTime(e.target.value)}
+        className="w-full rounded-lg border border-gray-300 p-3"
+      />
+    </div>
+  </div>
+</div>
                        <ArticlePreview
                 title={title}
                 subtitle={subtitle}
