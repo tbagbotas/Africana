@@ -5,6 +5,7 @@ import RichTextEditor from "./RichTextEditor";
 import PublishSidebar from "./PublishSidebar";
 import ImageUpload from "./ImageUpload";
 import ArticlePreview from "../admin/ArticlePreview";
+import MediaLibrary from "./MediaLibrary";
 import SeoPanel from "./editor/SeoPanel";
 import { useDraft } from "./useDraft";
 export default function ArticleForm() {
@@ -14,7 +15,7 @@ export default function ArticleForm() {
   const [content, setContent] = useState("");
 
   const [image, setImage] = useState("");
-
+const [mediaLibrary, setMediaLibrary] = useState<string[]>([]);
   const [category, setCategory] = useState("General");
   const [author, setAuthor] = useState("Africana News");
   const [tags, setTags] = useState("");
@@ -82,7 +83,13 @@ useDraft("draft-breaking", breaking, setBreaking);
       setSubtitle("");
       setContent("");
       setImage("");
+setMediaLibrary((current) => {
+  if (!image || current.includes(image)) {
+    return current;
+  }
 
+  return [...current, image];
+});
       setCategory("General");
       setAuthor("Africana News");
       setTags("");
@@ -187,7 +194,14 @@ localStorage.removeItem("draft-breaking");
               <ImageUpload
                 image={image}
                 setImage={setImage}
-              />              <ArticlePreview
+              />  
+               <MediaLibrary
+  images={mediaLibrary}
+  onSelect={(selectedImage) => {
+    setImage(selectedImage);
+  }}
+/>
+                       <ArticlePreview
                 title={title}
                 subtitle={subtitle}
                 content={content}
