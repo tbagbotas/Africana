@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import PublishSidebar from "./PublishSidebar";
 import ImageUpload from "./ImageUpload";
@@ -83,6 +83,13 @@ useDraft("draft-breaking", breaking, setBreaking);
       setSubtitle("");
       setContent("");
       setImage("");
+      setMediaLibrary((current) => {
+  if (!image || current.includes(image)) {
+    return current;
+  }
+
+  return [...current, image];
+});
 setMediaLibrary((current) => {
   if (!image || current.includes(image)) {
     return current;
