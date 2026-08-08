@@ -29,6 +29,7 @@ const [mediaLibrary, setMediaLibrary] = useState<string[]>([]);
   const [breaking, setBreaking] = useState(false);
 const [publishDate, setPublishDate] = useState("");
 const [publishTime, setPublishTime] = useState("");
+const [status, setStatus] = useState("draft");
   const [publishing, setPublishing] = useState(false);
 useDraft("draft-title", title, setTitle);
 useDraft("draft-subtitle", subtitle, setSubtitle);
@@ -87,6 +88,7 @@ useEffect(() => {
           keywords,
 publishDate,
 publishTime,
+status,
           featured,
           trending,
           breaking,
@@ -261,6 +263,21 @@ localStorage.removeItem("draft-breaking");
         className="w-full rounded-lg border border-gray-300 p-3"
       />
     </div>
+    <div>
+  <label className="mb-2 block font-semibold">
+    Status
+  </label>
+
+  <select
+    value={status}
+    onChange={(e) => setStatus(e.target.value)}
+    className="w-full rounded-lg border border-gray-300 p-3"
+  >
+    <option value="draft">Draft</option>
+    <option value="scheduled">Scheduled</option>
+    <option value="published">Published</option>
+  </select>
+</div>
   </div>
 </div>
                        <ArticlePreview
