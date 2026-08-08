@@ -267,8 +267,8 @@ localStorage.removeItem("draft-breaking");
   <label className="mb-2 block font-semibold">
     Status
   </label>
-
-  <select
+ <select
+ 
     value={status}
     onChange={(e) => setStatus(e.target.value)}
     className="w-full rounded-lg border border-gray-300 p-3"
