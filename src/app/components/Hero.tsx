@@ -53,7 +53,7 @@ export default async function Hero() {
 
           <div className="relative h-[320px] md:h-[450px] lg:h-[520px]">
             <Image
-              src={featuredArticle.image ?? "/placeholder.jpg"}
+              src={featuredArticle.image || "/placeholder.jpg"}
               alt={featuredArticle.title}
               fill
               priority
@@ -114,7 +114,7 @@ export default async function Hero() {
               >
                 <div className="relative w-28 h-24 rounded-lg overflow-hidden flex-shrink-0">
                   <Image
-                    src={article.image ?? "/placeholder.jpg"}
+                    src={article.image || "/placeholder.jpg"}
                     alt={article.title}
                     fill
                     unoptimized

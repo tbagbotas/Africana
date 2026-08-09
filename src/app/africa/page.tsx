@@ -11,12 +11,23 @@ export default async function AfricaPage() {
       publishedAt: "desc",
     },
   });
-
+const formattedArticles = articles.map((article) => ({
+  ...article,
+  tags: article.tags
+    ? article.tags.split(",").map((tag) => tag.trim()).filter(Boolean)
+    : [],
+  publishedAt: article.publishedAt
+    ? article.publishedAt.toISOString()
+    : "",
+  updatedAt: article.updatedAt
+    ? article.updatedAt.toISOString()
+    : "",
+}));
   return (
     <CategoryPage
       title="Africa News"
       description="Stay informed with the latest news, politics, business, technology, sports, culture, and human-interest stories from across Africa."
-      articles={articles}
+      articles={formattedArticles}
     />
   );
 }

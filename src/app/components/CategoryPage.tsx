@@ -35,7 +35,7 @@ export default function CategoryPage({
                 className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
               >
                 <img
-                  src={article.image}
+                  src={article.image ?? ""}
                   alt={article.title}
                   className="w-full h-56 object-cover"
                 />
