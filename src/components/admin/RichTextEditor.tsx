@@ -7,10 +7,8 @@ import { useRef } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
-
-import Underline from "@tiptap/extension-underline";
-
 import Link from "@tiptap/extension-link";
+
 
 import Image from "@tiptap/extension-image";
 
@@ -45,32 +43,16 @@ export default function RichTextEditor({
   const editor = useEditor({
 
     extensions: [
-
-      StarterKit,
-
-      Underline,
-
-      Image,
-
-      Placeholder.configure({
-
-        placeholder: "Start writing your article...",
-
-      }),
-
-      TextAlign.configure({
-
-        types: ["heading", "paragraph"],
-
-      }),
-
-      Link.configure({
-
-        openOnClick: false,
-
-      }),
-
-    ],
+  StarterKit,
+  Link,
+  Image,
+  Placeholder.configure({
+    placeholder: "Start writing your article...",
+  }),
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+  }),
+],
 
     content: content || "<p>Start writing your article...</p>",
 
