@@ -4,8 +4,9 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
+
 model Article {
   id          Int      @id @default(autoincrement())
   title       String
@@ -23,8 +24,8 @@ model Article {
   trending    Boolean  @default(false)
   breaking    Boolean  @default(false)
   published   Boolean  @default(false)
-  status      String   @default("draft")
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  status      String   @default("draft")
 }
