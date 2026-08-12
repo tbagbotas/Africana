@@ -200,15 +200,19 @@ export default async function ArticlesPage() {
 
                       <div className="flex flex-wrap gap-2">
 
-                        {article.published ? (
-                          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                            Published
-                          </span>
-                        ) : (
-                          <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold">
-                            Draft
-                          </span>
-                        )}
+                       {article.status === "scheduled" ? (
+  <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+    Scheduled
+  </span>
+) : article.published ? (
+  <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+    Published
+  </span>
+) : (
+  <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold">
+    Draft
+  </span>
+)}
 
                         {article.breaking && (
                           <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">

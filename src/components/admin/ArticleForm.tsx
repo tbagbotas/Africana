@@ -68,7 +68,13 @@ useEffect(() => {
   async function publishArticle() {
     try {
       setPublishing(true);
-
+console.log("PUBLISH DATA:", {
+  title,
+  subtitle,
+  content,
+  image,
+  category,
+});
       const response = await fetch("/api/articles/publish", {
         method: "POST",
         headers: {
@@ -114,13 +120,7 @@ status,
 
   return [...current, image];
 });
-setMediaLibrary((current) => {
-  if (!image || current.includes(image)) {
-    return current;
-  }
 
-  return [...current, image];
-});
       setCategory("General");
       setAuthor("Africana News");
       setTags("");
@@ -268,7 +268,7 @@ localStorage.removeItem("draft-breaking");
     Status
   </label>
  <select
- 
+
     value={status}
     onChange={(e) => setStatus(e.target.value)}
     className="w-full rounded-lg border border-gray-300 p-3"

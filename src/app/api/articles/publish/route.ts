@@ -50,8 +50,12 @@ export async function POST(request: Request) {
         trending: article.trending ?? false,
         breaking: article.breaking ?? false,
 
-        published: true,
-        publishedAt: new Date(),
+       status: article.status || "published",
+published: article.status === "published",
+publishedAt:
+  article.status === "scheduled"
+    ? new Date(`${article.publishDate}T${article.publishTime}`)
+    : new Date(),
       },
     });
 

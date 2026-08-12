@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 interface Props {
   article: {
@@ -11,6 +12,7 @@ interface Props {
     category: string | null;
     author: string | null;
     content: string;
+    image: string | null;
   };
 }
 
@@ -23,6 +25,7 @@ export default function EditArticleForm({ article }: Props) {
   const [author, setAuthor] = useState(article.author ?? "");
   const [content, setContent] = useState(article.content);
   const [saving, setSaving] = useState(false);
+  const [image, setImage] = useState(article.image ?? "");
 
   async function saveArticle() {
     setSaving(true);
@@ -39,6 +42,7 @@ export default function EditArticleForm({ article }: Props) {
         category,
         author,
         content,
+        image,
       }),
     });
 
@@ -57,7 +61,7 @@ export default function EditArticleForm({ article }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <label className="block mb-2 font-semibold">
+        <label className="mb-2 block font-semibold">
           Title
         </label>
 
@@ -69,7 +73,7 @@ export default function EditArticleForm({ article }: Props) {
       </div>
 
       <div>
-        <label className="block mb-2 font-semibold">
+        <label className="mb-2 block font-semibold">
           Subtitle
         </label>
 
@@ -81,7 +85,7 @@ export default function EditArticleForm({ article }: Props) {
       </div>
 
       <div>
-        <label className="block mb-2 font-semibold">
+        <label className="mb-2 block font-semibold">
           Category
         </label>
 
@@ -93,7 +97,7 @@ export default function EditArticleForm({ article }: Props) {
       </div>
 
       <div>
-        <label className="block mb-2 font-semibold">
+        <label className="mb-2 block font-semibold">
           Author
         </label>
 
@@ -105,7 +109,7 @@ export default function EditArticleForm({ article }: Props) {
       </div>
 
       <div>
-        <label className="block mb-2 font-semibold">
+        <label className="mb-2 block font-semibold">
           Content
         </label>
 
@@ -114,6 +118,13 @@ export default function EditArticleForm({ article }: Props) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className="w-full rounded-lg border p-3"
+        />
+      </div>
+
+      <div>
+        <ImageUpload
+          image={image}
+          setImage={setImage}
         />
       </div>
 

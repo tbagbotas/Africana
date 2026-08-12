@@ -7,7 +7,7 @@ import { useRef } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
+
 
 
 import Image from "@tiptap/extension-image";
@@ -44,7 +44,7 @@ export default function RichTextEditor({
 
     extensions: [
   StarterKit,
-  Link,
+  
   Image,
   Placeholder.configure({
     placeholder: "Start writing your article...",

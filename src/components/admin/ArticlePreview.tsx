@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface ArticlePreviewProps {
   title: string;
   subtitle: string;
@@ -20,11 +22,16 @@ export default function ArticlePreview({
       </h2>
 
       {image && (
-        <img
-          src={image}
-          alt={title}
-          className="mb-6 h-72 w-full rounded-lg object-cover"
-        />
+        <div className="relative mb-8 h-72 w-full overflow-hidden rounded-lg">
+          <Image
+            src={image}
+            alt={title || "Article image"}
+            fill
+            sizes="100vw"
+            className="object-cover"
+            unoptimized
+          />
+        </div>
       )}
 
       <h1 className="mb-3 text-4xl font-bold">

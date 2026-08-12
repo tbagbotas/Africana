@@ -16,6 +16,7 @@ export async function PUT(req: NextRequest) {
         subtitle: body.subtitle,
         category: body.category,
         author: body.author,
+        image: body.image,
         content: body.content,
         excerpt: body.content
           .replace(/<[^>]*>/g, " ")

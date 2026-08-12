@@ -16,7 +16,7 @@ export default async function Hero() {
   if (articles.length === 0) {
     return (
       <section className="max-w-7xl mx-auto px-4 lg:px-6 py-8">
-        <div className="bg-white rounded-xl p-10 text-center shadow">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-2xl font-bold">
             No published articles yet
           </h2>
@@ -51,15 +51,16 @@ export default async function Hero() {
         {/* Hero */}
         <div className="lg:col-span-2 bg-white rounded-2xl overflow-hidden shadow-xl">
 
-          <div className="relative h-[320px] md:h-[450px] lg:h-[520px]">
-            <Image
-              src={featuredArticle.image || "/placeholder.jpg"}
-              alt={featuredArticle.title}
-              fill
-              priority
-              unoptimized
-              className="object-cover"
-            />
+          <div className="relative h-80 md:h-112.5 lg:h-130">
+         <Image
+  src={featuredArticle.image || "/placeholder.jpg"}
+  alt={featuredArticle.title}
+  fill
+  priority
+  unoptimized
+  sizes="(max-width: 1024px) 100vw, 66vw"
+  className="object-cover"
+/>
 
             {featuredArticle.breaking && (
               <div className="absolute top-5 left-5 z-10">
@@ -71,6 +72,7 @@ export default async function Hero() {
           </div>
 
           <div className="p-8">
+
             <span className="inline-block bg-emerald-700 text-white px-3 py-1 rounded-full text-sm">
               {featuredArticle.category}
             </span>
@@ -84,12 +86,26 @@ export default async function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-5 mt-6 text-gray-500 text-sm">
-              <span>✍️ {featuredArticle.author}</span>
-              <span>📍 {featuredArticle.location || "Unknown"}</span>
+
               <span>
-                🕒 {new Date(featuredArticle.publishedAt).toLocaleDateString()}
+                ✍️ {featuredArticle.author}
               </span>
-              <span>⏱ {featuredArticle.readTime}</span>
+
+              <span>
+                📍 {featuredArticle.location || "Unknown"}
+              </span>
+
+              <span>
+                🕒{" "}
+                {new Date(
+                  featuredArticle.publishedAt
+                ).toLocaleDateString()}
+              </span>
+
+              <span>
+                ⏱ {featuredArticle.readTime}
+              </span>
+
             </div>
 
             <Link
@@ -98,21 +114,28 @@ export default async function Hero() {
             >
               Read Full Story →
             </Link>
+
           </div>
         </div>
 
         {/* Top Stories */}
         <aside className="space-y-6">
+
           <div className="bg-white rounded-2xl shadow-xl p-6">
+
             <h2 className="text-2xl font-bold mb-6 border-b pb-3">
               Top Stories
-            </h2>            {topStories.map((article) => (
+            </h2>
+
+            {topStories.map((article) => (
               <Link
                 key={article.id}
                 href={`/article/${article.slug}`}
                 className="flex gap-4 mb-6 last:mb-0 group"
               >
-                <div className="relative w-28 h-24 rounded-lg overflow-hidden flex-shrink-0">
+
+                <div className="relative w-28 h-24 rounded-lg overflow-hidden shrink-0">
+
                   <Image
                     src={article.image || "/placeholder.jpg"}
                     alt={article.title}
@@ -120,9 +143,11 @@ export default async function Hero() {
                     unoptimized
                     className="object-cover group-hover:scale-105 transition"
                   />
+
                 </div>
 
                 <div>
+
                   <span className="text-xs uppercase font-bold text-red-600">
                     {article.category}
                   </span>
@@ -134,10 +159,14 @@ export default async function Hero() {
                   <p className="text-sm text-gray-500 mt-2">
                     {article.readTime}
                   </p>
+
                 </div>
+
               </Link>
             ))}
+
           </div>
+
         </aside>
 
       </div>

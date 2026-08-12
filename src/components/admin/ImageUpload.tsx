@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 interface ImageUploadProps {
@@ -39,6 +40,16 @@ export default function ImageUpload({
       }
 
       setImage(data.imageUrl);
+      const saved = JSON.parse(
+  localStorage.getItem("media-library") || "[]"
+);
+
+if (!saved.includes(data.imageUrl)) {
+  localStorage.setItem(
+    "media-library",
+    JSON.stringify([...saved, data.imageUrl])
+  );
+}
     } catch (error) {
       console.error(error);
       alert("Failed to upload image.");
@@ -48,24 +59,29 @@ export default function ImageUpload({
   }
 
   return (
-    <div className="rounded-xl bg-white p-6 shadow">
+    <div>
       <h2 className="mb-4 text-xl font-bold">
         Featured Image
       </h2>
 
       <div
-        onClick={() => !uploading && fileInputRef.current?.click()}
-        className="flex h-56 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:border-emerald-600"
+        onClick={() =>
+          !uploading && fileInputRef.current?.click()
+        }
+        className="relative flex h-56 cursor-pointer items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:border-emerald-600"
       >
         {uploading ? (
           <p className="text-lg font-semibold">
             Uploading...
           </p>
         ) : image ? (
-          <img
+          <Image
             src={image}
             alt="Preview"
-            className="h-full w-full rounded-lg object-cover"
+            fill
+            sizes="100vw"
+            unoptimized
+            className="rounded-lg object-cover"
           />
         ) : (
           <div className="text-center">

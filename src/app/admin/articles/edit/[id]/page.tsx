@@ -38,6 +38,7 @@ export default async function EditArticlePage({
             category: article.category,
             author: article.author,
             content: article.content,
+            image: article.image,
           }}
         />
       </div>
