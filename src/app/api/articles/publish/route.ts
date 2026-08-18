@@ -24,10 +24,36 @@ export async function POST(request: Request) {
       );
     }
 
+    if (
+      article.status === "scheduled" &&
+      (!article.publishDate || !article.publishTime)
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Publish date and publish time are required for scheduled articles.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const baseSlug = createSlug(article.title);
+
+    const uniqueSlug = `${baseSlug}-${Date.now()}`;
+
+    const publishedAt =
+      article.status === "scheduled"
+        ? new Date(
+            `${article.publishDate}T${article.publishTime}`
+          )
+        : new Date();
+
     const savedArticle = await prisma.article.create({
       data: {
         title: article.title,
-        slug: createSlug(article.title),
+
+        slug: uniqueSlug,
 
         subtitle: article.subtitle || "",
 
@@ -40,30 +66,40 @@ export async function POST(request: Request) {
         content: article.content || "",
 
         author: article.author || "Africana News",
+
         category: article.category || "General",
+
         location: article.location || "",
+
         image: article.image || "",
+
         tags: article.tags || "",
+
         readTime: article.readTime || "5 min",
 
         featured: article.featured ?? false,
+
         trending: article.trending ?? false,
+
         breaking: article.breaking ?? false,
 
-       status: article.status || "published",
-published: article.status === "published",
-publishedAt:
-  article.status === "scheduled"
-    ? new Date(`${article.publishDate}T${article.publishTime}`)
-    : new Date(),
+        status: article.status || "published",
+
+        published: article.status === "published",
+
+        publishedAt,
       },
     });
 
     return NextResponse.json({
       success: true,
-      message: "Article published successfully.",
+      message:
+        article.status === "scheduled"
+          ? "Article scheduled successfully."
+          : "Article published successfully.",
       article: savedArticle,
     });
+
   } catch (error) {
     console.error("Publish Error:", error);
 

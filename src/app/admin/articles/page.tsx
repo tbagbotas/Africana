@@ -1,7 +1,10 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "./DeleteButton";
+import LogoutButton from "./LogoutButton";
 
 export default async function ArticlesPage() {
   const articles = await prisma.article.findMany({
@@ -11,6 +14,7 @@ export default async function ArticlesPage() {
   });
 
   const totalArticles = articles.length;
+
   const publishedArticles = articles.filter(
     (article) => article.published
   ).length;
@@ -31,6 +35,7 @@ export default async function ArticlesPage() {
     <main className="min-h-screen bg-slate-100">
       <div className="mx-auto max-w-7xl px-6 py-8">
 
+        {/* Header */}
         <div className="mb-8 flex items-center justify-between">
 
           <div>
@@ -43,15 +48,20 @@ export default async function ArticlesPage() {
             </p>
           </div>
 
-          <Link
-            href="/admin/articles/new"
-            className="rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700"
-          >
-            + New Article
-          </Link>
+          <div className="flex gap-3">
+            <Link
+              href="/admin/articles/new"
+              className="rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700"
+            >
+              + New Article
+            </Link>
+
+            <LogoutButton />
+          </div>
 
         </div>
 
+        {/* Statistics */}
         <div className="mb-8 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
 
           <div className="rounded-xl bg-white p-6 shadow">
@@ -106,6 +116,7 @@ export default async function ArticlesPage() {
 
         </div>
 
+        {/* Articles Table */}
         <div className="overflow-hidden rounded-2xl bg-white shadow-xl">
 
           <table className="min-w-full">
@@ -143,7 +154,8 @@ export default async function ArticlesPage() {
             </thead>
 
             <tbody>
-  {articles.length === 0 ? (
+
+              {articles.length === 0 ? (
 
                 <tr>
 
@@ -162,9 +174,10 @@ export default async function ArticlesPage() {
 
                   <tr
                     key={article.id}
-                    className="border-t hover:bg-slate-50 transition"
+                    className="border-t transition hover:bg-slate-50"
                   >
 
+                    {/* Image */}
                     <td className="p-4">
 
                       <div className="relative h-20 w-28 overflow-hidden rounded-lg">
@@ -180,6 +193,7 @@ export default async function ArticlesPage() {
 
                     </td>
 
+                    {/* Title */}
                     <td className="p-4">
 
                       <h3 className="font-bold">
@@ -192,50 +206,65 @@ export default async function ArticlesPage() {
 
                     </td>
 
+                    {/* Category */}
                     <td className="p-4">
                       {article.category || "-"}
                     </td>
 
+                    {/* Status */}
                     <td className="p-4">
 
                       <div className="flex flex-wrap gap-2">
 
-                       {article.status === "scheduled" ? (
-  <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
-    Scheduled
-  </span>
-) : article.published ? (
-  <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-    Published
-  </span>
-) : (
-  <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold">
-    Draft
-  </span>
-)}
+                        {article.status === "scheduled" ? (
+
+                          <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
+                            Scheduled
+                          </span>
+
+                        ) : article.published ? (
+
+                          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                            Published
+                          </span>
+
+                        ) : (
+
+                          <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold">
+                            Draft
+                          </span>
+
+                        )}
 
                         {article.breaking && (
+
                           <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">
                             BREAKING
                           </span>
+
                         )}
 
                         {article.featured && (
+
                           <span className="rounded-full bg-yellow-400 px-3 py-1 text-xs font-semibold">
                             FEATURED
                           </span>
+
                         )}
 
                         {article.trending && (
+
                           <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
                             TRENDING
                           </span>
+
                         )}
 
                       </div>
 
                     </td>
 
+                    {/* Published Date */}
                     <td className="p-4">
 
                       {new Date(
@@ -244,6 +273,7 @@ export default async function ArticlesPage() {
 
                     </td>
 
+                    {/* Actions */}
                     <td className="p-4">
 
                       <div className="flex flex-wrap gap-2">
@@ -262,7 +292,9 @@ export default async function ArticlesPage() {
                           Edit
                         </Link>
 
-                        <DeleteButton id={article.id} />
+                        <DeleteButton
+                          id={article.id}
+                        />
 
                       </div>
 
@@ -272,12 +304,15 @@ export default async function ArticlesPage() {
 
                 ))
 
-              )}                                                                                                                                                                                                                                                                                                                                                                                                          
+              )}
+
             </tbody>
+
           </table>
+
         </div>
+
       </div>
     </main>
   );
 }
-        

@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function useDraft<T>(
   key: string,
   value: T,
   setValue: (value: T) => void
 ) {
-  // Load saved draft
+  const loaded = useRef(false);
+
+  // Load saved draft only once
   useEffect(() => {
     const saved = localStorage.getItem(key);
 
@@ -18,10 +20,14 @@ export function useDraft<T>(
         setValue(saved as T);
       }
     }
+
+    loaded.current = true;
   }, [key, setValue]);
 
-  // Save draft whenever it changes
+  // Save changes after the initial load
   useEffect(() => {
+    if (!loaded.current) return;
+
     localStorage.setItem(key, JSON.stringify(value));
   }, [key, value]);
 }

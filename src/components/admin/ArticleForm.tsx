@@ -107,7 +107,13 @@ status,
         throw new Error(data.message || "Publishing failed.");
       }
 
-      alert("✅ Article published successfully!");
+      alert(
+  status === "scheduled"
+    ? "✅ Article scheduled successfully!"
+    : status === "draft"
+      ? "✅ Article saved as draft!"
+      : "✅ Article published successfully!"
+);
 
       setTitle("");
       setSubtitle("");

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import CategoryPage from "../components/CategoryPage";
 import { prisma } from "@/lib/prisma";
 

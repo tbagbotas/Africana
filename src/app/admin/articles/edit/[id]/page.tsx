@@ -39,6 +39,11 @@ export default async function EditArticlePage({
             author: article.author,
             content: article.content,
             image: article.image,
+            status: article.status,
+
+            featured: article.featured,
+            trending: article.trending,
+            breaking: article.breaking,
           }}
         />
       </div>
