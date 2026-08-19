@@ -14,6 +14,7 @@ interface Props {
     content: string;
     image: string | null;
     status: string;
+    publishedAt: Date;
     featured: boolean;
     trending: boolean;
     breaking: boolean;
@@ -32,6 +33,16 @@ export default function EditArticleForm({ article }: Props) {
   const [image, setImage] = useState(article.image ?? "");
 
   const [status, setStatus] = useState(article.status);
+
+  const [publishDate, setPublishDate] = useState(() => {
+    const date = new Date(article.publishedAt);
+    return date.toISOString().slice(0, 10);
+  });
+
+  const [publishTime, setPublishTime] = useState(() => {
+    const date = new Date(article.publishedAt);
+    return date.toISOString().slice(11, 16);
+  });
 
   const [featured, setFeatured] = useState(article.featured);
   const [trending, setTrending] = useState(article.trending);
@@ -55,6 +66,8 @@ export default function EditArticleForm({ article }: Props) {
           content,
           image,
           status,
+          publishDate,
+          publishTime,
           featured,
           trending,
           breaking,
@@ -163,6 +176,40 @@ export default function EditArticleForm({ article }: Props) {
           </option>
         </select>
       </div>
+
+      {status === "scheduled" && (
+        <div className="space-y-4 rounded-lg border p-4">
+          <h2 className="font-semibold">
+            Schedule Article
+          </h2>
+
+          <div>
+            <label className="mb-2 block font-semibold">
+              Publish Date
+            </label>
+
+            <input
+              type="date"
+              value={publishDate}
+              onChange={(e) => setPublishDate(e.target.value)}
+              className="w-full rounded-lg border p-3"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block font-semibold">
+              Publish Time
+            </label>
+
+            <input
+              type="time"
+              value={publishTime}
+              onChange={(e) => setPublishTime(e.target.value)}
+              className="w-full rounded-lg border p-3"
+            />
+          </div>
+        </div>
+      )}
 
       <div className="space-y-3 rounded-lg border p-4">
         <h2 className="font-semibold">
