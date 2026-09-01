@@ -40,16 +40,17 @@ export default function ImageUpload({
       }
 
       setImage(data.imageUrl);
-      const saved = JSON.parse(
-  localStorage.getItem("media-library") || "[]"
-);
 
-if (!saved.includes(data.imageUrl)) {
-  localStorage.setItem(
-    "media-library",
-    JSON.stringify([...saved, data.imageUrl])
-  );
-}
+      const saved = JSON.parse(
+        localStorage.getItem("media-library") || "[]"
+      );
+
+      if (!saved.includes(data.imageUrl)) {
+        localStorage.setItem(
+          "media-library",
+          JSON.stringify([...saved, data.imageUrl])
+        );
+      }
     } catch (error) {
       console.error(error);
       alert("Failed to upload image.");
@@ -77,7 +78,7 @@ if (!saved.includes(data.imageUrl)) {
         ) : image ? (
           <Image
             src={image}
-            alt="Preview"
+            alt="Featured image preview"
             fill
             sizes="100vw"
             unoptimized

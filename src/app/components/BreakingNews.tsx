@@ -17,26 +17,20 @@ export default async function BreakingNews() {
   }
 
   return (
-    <section className="bg-red-700 text-white border-y-4 border-red-800 overflow-hidden">
-      <div className="max-w-7xl mx-auto flex items-center">
-
-        {/* LIVE Badge */}
-        <div className="flex items-center bg-black px-6 py-4 font-bold text-sm whitespace-nowrap">
-          <span className="animate-pulse mr-2">🔴</span>
+    <section className="overflow-hidden border-y-4 border-emerald-700 bg-emerald-950 text-white">
+      <div className="mx-auto flex max-w-7xl items-center">
+        <div className="z-10 flex items-center whitespace-nowrap bg-black px-5 py-4 text-sm font-bold sm:px-6">
+          <span className="mr-2 animate-pulse text-red-500">●</span>
           LIVE
         </div>
 
-        {/* Scrolling Headlines */}
         <div className="relative flex-1 overflow-hidden">
-          <div
-            className="flex whitespace-nowrap py-4 animate-marquee"
-            style={{ width: "max-content" }}
-          >
-            {[...headlines, ...headlines].map((article, index) => (
+          <div className="marquee">
+            {headlines.map((article) => (
               <Link
-                key={`${article.id}-${index}`}
+                key={article.id}
                 href={`/article/${article.slug}`}
-                className="mx-8 hover:text-yellow-300 transition font-semibold"
+                className="mx-8 font-semibold transition hover:text-yellow-300"
               >
                 📰 {article.title}
               </Link>
@@ -46,18 +40,26 @@ export default async function BreakingNews() {
       </div>
 
       <style>{`
-        .animate-marquee {
-          animation: marquee 35s linear infinite;
+        .marquee {
+          display: flex;
+          width: max-content;
+          white-space: nowrap;
+          padding: 1rem 0;
+          animation: marquee 30s linear infinite;
         }
 
         @keyframes marquee {
           from {
-            transform: translateX(0%);
+            transform: translateX(100%);
           }
 
           to {
-            transform: translateX(-50%);
+            transform: translateX(-100%);
           }
+        }
+
+        .marquee:hover {
+          animation-play-state: paused;
         }
       `}</style>
     </section>

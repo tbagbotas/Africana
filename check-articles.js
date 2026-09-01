@@ -1,17 +1,27 @@
-require("dotenv").config({path:".env"});
-const {PrismaClient}=require("@prisma/client");
+/* eslint-disable @typescript-eslint/no-require-imports */
+require("dotenv").config({ path: ".env" });
 
-const p=new PrismaClient();
+const { PrismaClient } = require("@prisma/client");
 
-p.article.findMany({
-  select:{
-    id:true,
-    title:true,
-    slug:true,
-    subtitle:true,
-    excerpt:true
-  }
-})
-.then(rows => console.log(JSON.stringify(rows,null,2)))
-.catch(err => console.error(err.message))
-.finally(() => p.$disconnect());
+const p = new PrismaClient();
+
+p.article
+  .findUnique({
+    where: {
+      id: 28,
+    },
+    select: {
+      id: true,
+      title: true,
+      image: true,
+    },
+  })
+  .then((article) => {
+    console.log(JSON.stringify(article, null, 2));
+  })
+  .catch((err) => {
+    console.error(err.message);
+  })
+  .finally(() => {
+    p.$disconnect();
+  });

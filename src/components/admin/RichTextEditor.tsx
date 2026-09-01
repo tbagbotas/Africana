@@ -15,7 +15,7 @@ import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 
 import TextAlign from "@tiptap/extension-text-align";
-
+import Underline from "@tiptap/extension-underline";
 
 
 interface RichTextEditorProps {
@@ -44,7 +44,7 @@ export default function RichTextEditor({
 
     extensions: [
   StarterKit,
-  
+   Underline,
   Image,
   Placeholder.configure({
     placeholder: "Start writing your article...",
@@ -554,7 +554,7 @@ export default function RichTextEditor({
 
 
 
-      <div className="min-h-[400px] p-4">
+      <div className="min-h-100 p-4">
 
         <EditorContent editor={editor} />
 

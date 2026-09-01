@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   try {
     const article = await request.json();
 
-    if (!article.title) {
+    if (!article.title?.trim()) {
       return NextResponse.json(
         {
           success: false,
@@ -42,64 +42,134 @@ export async function POST(request: Request) {
 
     const uniqueSlug = `${baseSlug}-${Date.now()}`;
 
-    const publishedAt =
-      article.status === "scheduled"
-        ? new Date(
-            `${article.publishDate}T${article.publishTime}`
-          )
-        : new Date();
+    let publishedAt = new Date();
 
+    if (article.status === "scheduled") {
+      publishedAt = new Date(
+        `${article.publishDate}T${article.publishTime}`
+      );
+    }
+
+    const data = {
+      title: article.title.trim(),
+
+      slug: uniqueSlug,
+
+      subtitle: article.subtitle || "",
+
+      excerpt:
+        article.excerpt ||
+        (article.content
+          ? article.content.replace(/<[^>]*>/g, "").substring(0, 180)
+          : ""),
+
+      content: article.content || "",
+
+      author: article.author || "Africana News",
+
+      category: article.category || "General",
+
+      location: article.location || "",
+
+      image: article.image || "",
+
+      tags: article.tags || "",
+
+      readTime: article.readTime || "5 min",
+
+      seoTitle: article.seoTitle || "",
+
+      metaDescription: article.metaDescription || "",
+
+      keywords: article.keywords || "",
+
+      featured: article.featured ?? false,
+
+      trending: article.trending ?? false,
+
+      breaking: article.breaking ?? false,
+
+      status: article.status || "draft",
+
+      published: article.status === "published",
+
+      publishedAt,
+    };
+
+    /*
+     * If an existing article ID is supplied,
+     * update that article instead of creating a duplicate.
+     */
+    if (article.id) {
+      const articleId = Number(article.id);
+
+      if (!Number.isNaN(articleId)) {
+        const existingArticle = await prisma.article.findUnique({
+          where: {
+            id: articleId,
+          },
+        });
+
+        if (existingArticle) {
+          const updatedArticle = await prisma.article.update({
+            where: {
+              id: articleId,
+            },
+            data: {
+              ...data,
+              slug: existingArticle.slug,
+            },
+          });
+
+          let message = "Article updated successfully.";
+
+          if (article.status === "published") {
+            message = "Article published successfully.";
+          }
+
+          if (article.status === "scheduled") {
+            message = "Article scheduled successfully.";
+          }
+
+          if (article.status === "draft") {
+            message = "Article saved as draft.";
+          }
+
+          return NextResponse.json({
+            success: true,
+            message,
+            article: updatedArticle,
+          });
+        }
+      }
+    }
+
+    /*
+     * No existing article ID means this is a new article.
+     */
     const savedArticle = await prisma.article.create({
-      data: {
-        title: article.title,
-
-        slug: uniqueSlug,
-
-        subtitle: article.subtitle || "",
-
-        excerpt:
-          article.excerpt ||
-          (article.content
-            ? article.content.substring(0, 180)
-            : ""),
-
-        content: article.content || "",
-
-        author: article.author || "Africana News",
-
-        category: article.category || "General",
-
-        location: article.location || "",
-
-        image: article.image || "",
-
-        tags: article.tags || "",
-
-        readTime: article.readTime || "5 min",
-
-        featured: article.featured ?? false,
-
-        trending: article.trending ?? false,
-
-        breaking: article.breaking ?? false,
-
-        status: article.status || "published",
-
-        published: article.status === "published",
-
-        publishedAt,
-      },
+      data,
     });
+
+    let message = "Article saved successfully.";
+
+    if (article.status === "published") {
+      message = "Article published successfully.";
+    }
+
+    if (article.status === "scheduled") {
+      message = "Article scheduled successfully.";
+    }
+
+    if (article.status === "draft") {
+      message = "Article saved as draft.";
+    }
 
     return NextResponse.json({
       success: true,
-      message:
-        article.status === "scheduled"
-          ? "Article scheduled successfully."
-          : "Article published successfully.",
+      message,
       article: savedArticle,
     });
-
   } catch (error) {
     console.error("Publish Error:", error);
 
