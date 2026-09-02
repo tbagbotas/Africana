@@ -20,6 +20,8 @@ const navItems = [
 
 export default function Header() {
   const [search, setSearch] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,96 +34,187 @@ export default function Header() {
     }
 
     router.push(`/search?q=${encodeURIComponent(query)}`);
+    setMenuOpen(false);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
   };
 
   return (
     <header className="sticky top-0 z-50 shadow-lg">
+
       {/* Top Bar */}
-      <div className="bg-black text-white">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center px-6 py-3 gap-4">
-          <span className="text-sm">
-            🌍 Africa's Global News Network
+      <div className="bg-gray-950 text-white">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-3 md:px-6 lg:flex-row lg:items-center lg:justify-between">
+
+          <span className="text-sm font-medium">
+            Africa&apos;s Global News Network
           </span>
 
-          <div className="flex items-center gap-2 flex-wrap">
-            <input
-              type="text"
-              placeholder="Search news..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearch();
-                }
-              }}
-              className="w-64 px-3 py-2 bg-white border border-gray-300 rounded-md text-black outline-none focus:ring-2 focus:ring-yellow-400"
-            />
+          <div className="flex w-full flex-wrap items-center justify-center gap-2 lg:w-auto">
 
-            <button
-              onClick={handleSearch}
-              className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-4 py-2 rounded-md transition"
+            {/* Search */}
+            <div className="flex w-full max-w-md gap-2 sm:w-auto">
+              <input
+                type="text"
+                placeholder="Search news..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                className="min-w-0 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-black outline-none focus:ring-2 focus:ring-yellow-400 sm:w-64"
+              />
+
+              <button
+                onClick={handleSearch}
+                className="rounded-md bg-yellow-500 px-4 py-2 font-semibold text-black transition hover:bg-yellow-400"
+              >
+                Search
+              </button>
+            </div>
+
+            {/* Login */}
+            <Link
+              href="/admin/login"
+              onClick={closeMenu}
+              className="rounded-md px-3 py-2 font-semibold transition hover:bg-gray-800 hover:text-yellow-400"
             >
-              Search
-            </button>
-
-            <button className="hover:text-yellow-400 transition">
               👤 Login
-            </button>
+            </Link>
 
-            <button className="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-md font-semibold transition">
-              🔴 Live TV
-            </button>
+            {/* Live TV */}
+            <Link
+              href="/live"
+              className="rounded-md border border-yellow-400 bg-emerald-700 px-3 py-2 font-semibold text-white transition hover:bg-emerald-600"
+            >
+              📺 Live TV
+            </Link>
+
           </div>
         </div>
       </div>
 
-      {/* Logo */}
+      {/* Logo Section */}
       <div className="bg-emerald-900 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col lg:flex-row justify-between items-center">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 md:px-6">
+
+          {/* Logo */}
           <div>
-            <Link href="/">
-              <h1 className="text-5xl font-extrabold tracking-wide hover:text-yellow-400 transition cursor-pointer">
+            <Link href="/" onClick={closeMenu}>
+              <h1 className="cursor-pointer text-3xl font-extrabold tracking-wide transition hover:text-yellow-400 sm:text-5xl">
                 AFRICANA
               </h1>
             </Link>
 
-            <p className="text-yellow-400 mt-2">
+            <p className="mt-1 text-sm text-yellow-400 sm:mt-2 sm:text-base">
               Africa • Stories • World
             </p>
           </div>
 
-          <div className="flex gap-3 mt-5 lg:mt-0">
-            <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">
+          {/* Desktop Social */}
+          <div className="hidden items-center gap-2 lg:flex">
+
+            <button
+              type="button"
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500"
+            >
               Facebook
             </button>
 
-            <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition">
+            <button
+              type="button"
+              className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold transition hover:bg-red-500"
+            >
               YouTube
             </button>
 
-            <button className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded transition">
+            <button
+              type="button"
+              className="rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold transition hover:bg-gray-700"
+            >
               X
             </button>
 
-            <button className="bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded transition">
+            <button
+              type="button"
+              className="rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold transition hover:bg-gray-700"
+            >
               TikTok
             </button>
+
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="rounded-lg border border-emerald-500 bg-emerald-800 px-3 py-2 text-2xl transition hover:bg-emerald-700 lg:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? "✕" : "☰"}
+          </button>
+
         </div>
+
+        {/* Mobile Social */}
+        {menuOpen && (
+          <div className="border-t border-emerald-800 px-4 pb-4 lg:hidden">
+            <div className="flex flex-wrap gap-2 pt-4">
+
+              <button
+                type="button"
+                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold"
+              >
+                Facebook
+              </button>
+
+              <button
+                type="button"
+                className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold"
+              >
+                YouTube
+              </button>
+
+              <button
+                type="button"
+                className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold"
+              >
+                X
+              </button>
+
+              <button
+                type="button"
+                className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold"
+              >
+                TikTok
+              </button>
+
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Navigation */}
-      <nav className="bg-emerald-800 text-white border-t border-emerald-700">
-        <div className="max-w-7xl mx-auto px-6">
-          <ul className="flex flex-wrap gap-2 py-4 font-semibold">
+      {/* Desktop Navigation */}
+      <nav className="hidden border-t border-emerald-700 bg-emerald-800 text-white lg:block">
+        <div className="mx-auto max-w-7xl px-4 md:px-6">
+          <ul className="flex flex-wrap gap-1 py-3 font-semibold">
+
             {navItems.map((item) => {
-              const active = pathname === item.href;
+              const active =
+                pathname === item.href ||
+                (item.href !== "/" &&
+                  pathname.startsWith(`${item.href}/`));
 
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`px-3 py-2 rounded transition ${
+                    className={`block rounded-md px-3 py-2 text-sm transition ${
                       active
                         ? "bg-yellow-400 text-black"
                         : "hover:bg-emerald-700 hover:text-yellow-300"
@@ -132,9 +225,47 @@ export default function Header() {
                 </li>
               );
             })}
+
           </ul>
         </div>
       </nav>
+
+      {/* Mobile Navigation */}
+      {menuOpen && (
+        <nav className="border-t border-emerald-700 bg-emerald-800 text-white lg:hidden">
+          <div className="px-4 py-4">
+
+            <ul className="space-y-2">
+
+              {navItems.map((item) => {
+                const active =
+                  pathname === item.href ||
+                  (item.href !== "/" &&
+                    pathname.startsWith(`${item.href}/`));
+
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={closeMenu}
+                      className={`block rounded-lg px-4 py-3 font-semibold transition ${
+                        active
+                          ? "bg-yellow-400 text-black"
+                          : "bg-emerald-700 hover:bg-emerald-600"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+
+            </ul>
+
+          </div>
+        </nav>
+      )}
+
     </header>
   );
 }

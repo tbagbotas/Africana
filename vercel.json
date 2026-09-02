@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/admin/articles/publish-scheduled",
+      "schedule": "0 * * * *"
+    }
+  ]
+}

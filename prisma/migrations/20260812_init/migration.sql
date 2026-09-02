@@ -1,0 +1,32 @@
+-- CreateSchema
+CREATE SCHEMA IF NOT EXISTS "public";
+
+-- CreateTable
+CREATE TABLE "Article" (
+    "id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "subtitle" TEXT,
+    "excerpt" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "author" TEXT,
+    "category" TEXT,
+    "location" TEXT,
+    "image" TEXT,
+    "tags" TEXT,
+    "readTime" TEXT,
+    "featured" BOOLEAN NOT NULL DEFAULT false,
+    "trending" BOOLEAN NOT NULL DEFAULT false,
+    "breaking" BOOLEAN NOT NULL DEFAULT false,
+    "published" BOOLEAN NOT NULL DEFAULT false,
+    "publishedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'draft',
+
+    CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Article_slug_key" ON "Article"("slug");
+
