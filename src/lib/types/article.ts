@@ -1,0 +1,21 @@
+export type Article = {
+  id: number;
+  slug: string;
+  title: string;
+  subtitle?: string | null;
+  excerpt: string;
+  content: string;
+  author?: string | null;
+  category?: string | null;
+  location?: string | null;
+  image?: string | null;
+  imageCaption?: string;
+  tags: string[];
+  publishedAt?: string;
+  updatedAt?: string | null;
+  readTime?: string | null;
+  featured: boolean;
+  trending: boolean;
+  breaking?: boolean;
+  published?: boolean;
+};

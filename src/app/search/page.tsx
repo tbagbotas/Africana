@@ -1,7 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { articles } from "../../data/articles";
+import { prisma } from "@/lib/prisma";
 
 interface SearchPageProps {
   searchParams: Promise<{
@@ -9,10 +10,10 @@ interface SearchPageProps {
   }>;
 }
 
-function normalize(text: string) {
+function cleanText(text: string) {
   return text
-    .toLowerCase()
-    .replace(/[^\w\s]/g, "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -21,98 +22,212 @@ export default async function SearchPage({
 }: SearchPageProps) {
   const { q = "" } = await searchParams;
 
-  const query = normalize(q);
+  const query = q.trim();
 
-  const results = articles.filter((article) => {
-    const searchableText = normalize(
-      [
-        article.title,
-        article.subtitle,
-        article.category,
-        article.author,
-        article.location,
-        article.excerpt,
-        article.content,
-        article.tags.join(" "),
-      ].join(" ")
-    );
-
-    return searchableText.includes(query);
-  });
+  const results = query
+    ? await prisma.article.findMany({
+        where: {
+          published: true,
+          OR: [
+            {
+              title: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              subtitle: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              category: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              author: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              location: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              content: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              excerpt: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              tags: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        orderBy: {
+          publishedAt: "desc",
+        },
+        take: 30,
+      })
+    : await prisma.article.findMany({
+        where: {
+          published: true,
+        },
+        orderBy: {
+          publishedAt: "desc",
+        },
+        take: 30,
+      });
 
   return (
     <>
       <Header />
 
-      <main className="max-w-7xl mx-auto px-6 py-10">
-        <h1 className="text-4xl font-bold mb-2">
-          Search Results
-        </h1>
+      <main className="mx-auto max-w-7xl px-6 py-10">
+        {/* Search Header */}
+        <div className="mb-10">
+          <span className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
+            SEARCH
+          </span>
 
-        <p className="text-gray-600 mb-8">
-          Showing results for: <strong>{q || "All Articles"}</strong>
-        </p>
+          <h1 className="mt-3 text-4xl font-extrabold md:text-5xl">
+            Search Africana
+          </h1>
 
+          <p className="mt-3 text-lg text-gray-600">
+            {query
+              ? `Showing results for "${query}"`
+              : "Browse the latest published stories from Africana."}
+          </p>
+        </div>
+
+        {/* Results */}
         {results.length === 0 ? (
-          <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-2">
+          <div className="rounded-2xl border bg-yellow-50 p-8">
+            <h2 className="text-2xl font-bold">
               No articles found
             </h2>
 
-            <p className="text-gray-600">
-              Try searching by:
+            <p className="mt-3 text-gray-600">
+              Try searching for a different topic, category, location,
+              author, or keyword.
             </p>
 
-            <ul className="list-disc ml-6 mt-3 space-y-2">
-              <li>Africa</li>
-              <li>Technology</li>
-              <li>Business</li>
-              <li>Politics</li>
-              <li>Innovation</li>
-              <li>Economy</li>
-              <li>Africana News</li>
-            </ul>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {[
+                "Africa",
+                "Technology",
+                "Business",
+                "Politics",
+                "Sports",
+                "Innovation",
+                "Economy",
+              ].map((suggestion) => (
+                <Link
+                  key={suggestion}
+                  href={`/search?q=${encodeURIComponent(suggestion)}`}
+                  className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-emerald-700 shadow-sm transition hover:bg-emerald-700 hover:text-white"
+                >
+                  {suggestion}
+                </Link>
+              ))}
+            </div>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {results.map((article) => (
-              <div
-                key={article.id}
-                className="border rounded-xl overflow-hidden shadow hover:shadow-lg transition"
-              >
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-56 object-cover"
-                />
+          <>
+            <div className="mb-6 text-sm text-gray-500">
+              {results.length}{" "}
+              {results.length === 1 ? "article" : "articles"} found
+            </div>
 
-                <div className="p-5">
-                  <span className="text-emerald-700 font-semibold">
-                    {article.category}
-                  </span>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {results.map((article) => {
+                const excerpt = cleanText(
+                  article.excerpt || article.content || ""
+                );
 
-                  <h2 className="text-2xl font-bold mt-2">
-                    {article.title}
-                  </h2>
-
-                  <p className="text-gray-600 mt-3">
-                    {article.excerpt}
-                  </p>
-
-                  <div className="text-sm text-gray-500 mt-4">
-                    {article.author} • {article.location}
-                  </div>
-
-                  <Link
-                    href={`/article/${article.slug}`}
-                    className="inline-block mt-5 text-emerald-700 font-semibold hover:underline"
+                return (
+                  <article
+                    key={article.id}
+                    className="group overflow-hidden rounded-2xl border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                   >
-                    Read Article →
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+                    {/* Image */}
+                    <Link
+                      href={`/article/${article.slug}`}
+                      className="block"
+                    >
+                      <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
+                        <Image
+                          src={article.image || "/placeholder.jpg"}
+                          alt={article.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover transition duration-500 group-hover:scale-105"
+                        />
+
+                        <div className="absolute left-4 top-4">
+                          <span className="rounded-full bg-emerald-700 px-3 py-1 text-xs font-bold uppercase text-white">
+                            {article.category}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <h2 className="text-2xl font-bold leading-tight transition group-hover:text-emerald-700">
+                        <Link href={`/article/${article.slug}`}>
+                          {article.title}
+                        </Link>
+                      </h2>
+
+                      {excerpt && (
+                        <p className="mt-4 line-clamp-3 text-gray-600">
+                          {excerpt}
+                        </p>
+                      )}
+
+                      <div className="mt-5 flex flex-wrap gap-3 text-sm text-gray-500">
+                        {article.author && (
+                          <span>✍️ {article.author}</span>
+                        )}
+
+                        {article.location && (
+                          <span>📍 {article.location}</span>
+                        )}
+
+                        {article.readTime && (
+                          <span>⏱ {article.readTime}</span>
+                        )}
+                      </div>
+
+                      <Link
+                        href={`/article/${article.slug}`}
+                        className="mt-6 inline-block font-semibold text-emerald-700 transition hover:text-emerald-900"
+                      >
+                        Read Article →
+                      </Link>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </>
         )}
       </main>
 

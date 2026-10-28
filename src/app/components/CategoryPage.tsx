@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -34,9 +35,11 @@ export default function CategoryPage({
                 key={article.id}
                 className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
               >
-                <img
-                  src={article.image}
+                <Image
+                  src={article.image || "/placeholder.jpg"}
                   alt={article.title}
+                  width={1200}
+                  height={400}
                   className="w-full h-56 object-cover"
                 />
 
@@ -49,12 +52,16 @@ export default function CategoryPage({
                     {article.title}
                   </h2>
 
-                  <p className="text-gray-600 mb-4">
-                    {article.excerpt}
-                  </p>
+                  <div
+                    className="text-gray-600 mb-4"
+                    dangerouslySetInnerHTML={{
+                      __html: article.excerpt,
+                    }}
+                  />
 
                   <div className="text-sm text-gray-500 mb-4">
-                    {article.author} • {article.publishedAt} • {article.readTime}
+                    {article.author} • {article.publishedAt} •{" "}
+                    {article.readTime}
                   </div>
 
                   <Link
