@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 
 const categories = [
@@ -26,6 +27,51 @@ const companyLinks = [
   { href: "/terms", label: "Terms of Service" },
 ];
 
+const socialLinks = [
+  {
+    href: "https://www.facebook.com/",
+    label: "Facebook",
+    ariaLabel: "AFRICANA TV on Facebook",
+    className:
+      "rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-500",
+  },
+  {
+    href: "https://www.youtube.com/",
+    label: "YouTube",
+    ariaLabel: "AFRICANA TV on YouTube",
+    className:
+      "rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-red-500",
+  },
+  {
+    href: "https://x.com/",
+    label: "X",
+    ariaLabel: "AFRICANA TV on X",
+    className:
+      "rounded-lg bg-gray-800 px-3 py-2 text-xs font-semibold text-white transition hover:bg-gray-700",
+  },
+  {
+    href: "https://www.tiktok.com/",
+    label: "TikTok",
+    ariaLabel: "AFRICANA TV on TikTok",
+    className:
+      "rounded-lg bg-black px-3 py-2 text-xs font-semibold text-white transition hover:bg-gray-800",
+  },
+  {
+    href: "https://www.instagram.com/",
+    label: "Instagram",
+    ariaLabel: "AFRICANA TV on Instagram",
+    className:
+      "rounded-lg bg-pink-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-pink-500",
+  },
+  {
+    href: "https://www.threads.net/",
+    label: "Threads",
+    ariaLabel: "AFRICANA TV on Threads",
+    className:
+      "rounded-lg bg-gray-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-gray-800",
+  },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-300">
@@ -35,12 +81,12 @@ export default function Footer() {
           <div>
             <Link href="/" className="inline-block">
               <h2 className="text-3xl font-extrabold tracking-wide text-white transition hover:text-yellow-400">
-                AFRICANA
+                AFRICANA TV
               </h2>
             </Link>
 
             <p className="mt-3 text-sm font-medium text-yellow-400">
-              Africa • Stories • World
+              Africa &bull; Stories &bull; World
             </p>
 
             <p className="mt-5 max-w-sm text-sm leading-6 text-gray-400">
@@ -51,37 +97,18 @@ export default function Footer() {
 
             {/* Social Links */}
             <div className="mt-6 flex flex-wrap gap-2">
-              <a
-                href="#"
-                aria-label="Africana on Facebook"
-                className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-500"
-              >
-                Facebook
-              </a>
-
-              <a
-                href="#"
-                aria-label="Africana on YouTube"
-                className="rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-red-500"
-              >
-                YouTube
-              </a>
-
-              <a
-                href="#"
-                aria-label="Africana on X"
-                className="rounded-lg bg-gray-800 px-3 py-2 text-xs font-semibold text-white transition hover:bg-gray-700"
-              >
-                X
-              </a>
-
-              <a
-                href="#"
-                aria-label="Africana on TikTok"
-                className="rounded-lg bg-gray-800 px-3 py-2 text-xs font-semibold text-white transition hover:bg-gray-700"
-              >
-                TikTok
-              </a>
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.ariaLabel}
+                  className={social.className}
+                >
+                  {social.label}
+                </a>
+              ))}
             </div>
           </div>
 
@@ -125,10 +152,10 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Africana */}
+          {/* AFRICANA TV */}
           <div>
             <h3 className="text-lg font-bold text-white">
-              Africana
+              AFRICANA TV
             </h3>
 
             <ul className="mt-5 space-y-3">
@@ -150,7 +177,7 @@ export default function Footer() {
       {/* Copyright */}
       <div className="border-t border-gray-800">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-center text-sm text-gray-500 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:text-left">
-          <p>© 2026 Africana. All rights reserved.</p>
+          <p>© 2026 AFRICANA TV. All rights reserved.</p>
 
           <p>Africa&apos;s Global News Network</p>
         </div>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,11 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AFRICANA — Africa's Global News Network",
+  title: "AFRICANA TV — Africa's Global News Network",
   description:
-    "AFRICANA brings you the latest news, stories and developments from Africa and around the world.",
+    "AFRICANA TV brings you the latest African news, breaking stories, interviews, documentaries and developments from Africa and around the world.",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,9 +25,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col"
+      >
+        {children}
+      </body>
     </html>
   );
 }
