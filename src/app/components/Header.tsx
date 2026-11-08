@@ -31,7 +31,7 @@ export default function Header() {
       return;
     }
 
-    router.push(`/search?q=${encodeURIComponent(query)}`);
+    router.push("/search?q=" + encodeURIComponent(query));
   };
 
   return (
@@ -91,9 +91,14 @@ export default function Header() {
           </div>
 
           <div className="flex gap-3 mt-5 lg:mt-0">
-            <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">
+            <a
+              href="https://www.facebook.com/Africananewstv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition"
+            >
               Facebook
-            </button>
+            </a>
 
             <button className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded transition">
               YouTube
@@ -121,11 +126,7 @@ export default function Header() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`px-3 py-2 rounded transition ${
-                      active
-                        ? "bg-yellow-400 text-black"
-                        : "hover:bg-emerald-700 hover:text-yellow-300"
-                    }`}
+                    className={"px-3 py-2 rounded transition " + (active ? "bg-yellow-400 text-black" : "hover:bg-emerald-700 hover:text-yellow-300")}
                   >
                     {item.label}
                   </Link>
