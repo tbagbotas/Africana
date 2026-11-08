@@ -58,7 +58,7 @@ export default async function Hero() {
             <Link href={"/article/" + featuredArticle.slug} className="mt-7 inline-block rounded-xl bg-emerald-700 px-6 py-3 font-bold text-white transition hover:bg-emerald-800 sm:mt-8 sm:px-8 sm:py-4">Read Full Story →</Link>
           </div>
         </article>
-        <aside>
+        <aside><p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-700">Africana</p>
           <div className="rounded-2xl bg-white p-5 shadow-xl sm:p-6">
             <div className="mb-6 flex items-center justify-between border-b pb-3">
               <h2 className="text-2xl font-bold">Top Stories</h2>
