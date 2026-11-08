@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
-
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -17,14 +15,15 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const result = await signIn("credentials", {
-        username,
-        password,
-        redirect: false,
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: username, password }),
       });
+      const result = await response.json();
 
-      if (!result || result.error) {
-        setError("Invalid email or password.");
+      if (!response.ok) {
+        setError(result.error || "Invalid email or password.");
         return;
       }
 
