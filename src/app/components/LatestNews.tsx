@@ -35,7 +35,7 @@ export default async function LatestNews() {
       {/* Section Header */}
       <div className="mb-8 flex items-end justify-between gap-4 sm:mb-10">
         <h2 className="text-3xl font-extrabold sm:text-4xl">
-          📰 Latest News
+          Latest News
         </h2>
 
         <Link
@@ -129,12 +129,12 @@ export default async function LatestNews() {
                     {/* Article Information */}
                     <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500">
                       <span>
-                        ✍️ {article.author || "Africana News"}
+                        By {article.author || "Africana News"}
                       </span>
 
                       {article.location && (
                         <span>
-                          📍 {article.location}
+                          Location: {article.location}
                         </span>
                       )}
 
@@ -146,7 +146,7 @@ export default async function LatestNews() {
                       </span>
 
                       <span>
-                        ⏱ {article.readTime || "5 min"}
+                        {article.readTime || "5 min"}
                       </span>
                     </div>
 
