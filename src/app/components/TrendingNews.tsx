@@ -63,7 +63,7 @@ export default async function TrendingNews() {
           </span>
 
           <h2 className="mt-1 text-3xl font-extrabold sm:text-4xl">
-            🔥 Trending Today
+            Trending Today
           </h2>
         </div>
 
