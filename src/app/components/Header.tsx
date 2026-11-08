@@ -107,7 +107,7 @@ export default function Header() {
           <div>
             <Link href="/" onClick={closeMenu}>
               <h1 className="cursor-pointer text-3xl font-extrabold tracking-wide transition hover:text-yellow-400 sm:text-5xl">
-                AFRICANA
+                <span className="inline-flex items-center gap-3"><svg viewBox="0 0 64 64" className="h-12 w-12 shrink-0 sm:h-16 sm:w-16" role="img" aria-label="Africana TV logo"><circle cx="32" cy="32" r="29" fill="#064e3b" stroke="#facc15" strokeWidth="3"/><path d="M34 10 29 14 27 20 22 23 24 28 20 33 22 39 27 42 27 49 33 54 37 50 39 44 44 41 45 35 49 31 46 27 47 22 41 20 39 15Z" fill="#facc15"/><path d="M32 17c-4 6-6 13-5 20 1 6 4 10 7 14M25 26l12 2m-14 7 17 1m-11 7 12-3" fill="none" stroke="#064e3b" strokeWidth="1.7" strokeLinecap="round"/><circle cx="47" cy="17" r="2" fill="#fff"/></svg><span>AFRICANA</span></span>
               </h1>
             </Link>
 
