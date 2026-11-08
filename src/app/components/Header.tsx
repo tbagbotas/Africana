@@ -120,7 +120,7 @@ export default function Header() {
 
             <button
               type="button"
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500"
+              onClick={() => window.open("https://www.facebook.com/Africananewstv", "_blank", "noopener,noreferrer")} className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500"
             >
               Facebook
             </button>
@@ -168,7 +168,7 @@ export default function Header() {
 
               <button
                 type="button"
-                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold"
+                onClick={() => window.open("https://www.facebook.com/Africananewstv", "_blank", "noopener,noreferrer")} className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold"
               >
                 Facebook
               </button>
