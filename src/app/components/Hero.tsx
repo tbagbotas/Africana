@@ -50,10 +50,10 @@ export default async function Hero() {
             {featuredArticle.subtitle && <p className="mt-4 text-lg font-semibold leading-7 text-gray-700">{featuredArticle.subtitle}</p>}
             {heroExcerpt && <p className="mt-5 text-base leading-7 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8">{heroExcerpt}</p>}
             <div className="mt-6 flex flex-wrap gap-3 text-sm text-gray-500 sm:gap-5">
-              <span>✍️ {featuredArticle.author || "Africana News"}</span>
-              {featuredArticle.location && <span>📍 {featuredArticle.location}</span>}
-              <span>📅 {new Date(featuredArticle.publishedAt).toLocaleDateString()}</span>
-              <span>⏱ {featuredArticle.readTime || "5 min"}</span>
+              <span>By {featuredArticle.author || "Africana News"}</span>
+              {featuredArticle.location && <span>Location: {featuredArticle.location}</span>}
+              <span>Published {new Date(featuredArticle.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</span>
+              <span>{featuredArticle.readTime || "5 min"}</span>
             </div>
             <Link href={"/article/" + featuredArticle.slug} className="mt-7 inline-block rounded-xl bg-emerald-700 px-6 py-3 font-bold text-white transition hover:bg-emerald-800 sm:mt-8 sm:px-8 sm:py-4">Read Full Story →</Link>
           </div>
