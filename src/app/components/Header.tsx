@@ -127,7 +127,7 @@ export default function Header() {
 
             <button
               type="button"
-              onClick={() => window.open("https://www.youtube.com/", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://youtube.com/@africanatvnigeria?si=xRVHki4HFeGS0i2r", "_blank", "noopener,noreferrer")}
               className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold transition hover:bg-red-500"
             >
               YouTube
@@ -135,7 +135,7 @@ export default function Header() {
 
             <button
               type="button"
-              onClick={() => window.open("https://x.com/", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://x.com/tbagbotas?s=11", "_blank", "noopener,noreferrer")}
               className="rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold transition hover:bg-gray-700"
             >
               X
@@ -148,6 +148,14 @@ export default function Header() {
             >
               TikTok
             </button>
+
+<button
+  type="button"
+  onClick={() => window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer")}
+  className="rounded-md bg-pink-600 px-4 py-2 text-sm font-semibold transition hover:bg-pink-500"
+>
+  Instagram
+</button>
 
           </div>
 
@@ -178,7 +186,7 @@ export default function Header() {
 
               <button
                 type="button"
-              onClick={() => window.open("https://www.youtube.com/", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://youtube.com/@africanatvnigeria?si=xRVHki4HFeGS0i2r", "_blank", "noopener,noreferrer")}
                 className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold"
               >
                 YouTube
@@ -186,7 +194,7 @@ export default function Header() {
 
               <button
                 type="button"
-              onClick={() => window.open("https://x.com/", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://x.com/tbagbotas?s=11", "_blank", "noopener,noreferrer")}
                 className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold"
               >
                 X
@@ -199,6 +207,14 @@ export default function Header() {
               >
                 TikTok
               </button>
+
+<button
+  type="button"
+  onClick={() => window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer")}
+  className="rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold"
+>
+  Instagram
+</button>
 
             </div>
           </div>
