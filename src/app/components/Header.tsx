@@ -84,7 +84,7 @@ export default function Header() {
               onClick={closeMenu}
               className="rounded-md px-3 py-2 font-semibold transition hover:bg-gray-800 hover:text-yellow-400"
             >
-              👤 Login
+              Login
             </Link>
 
             {/* Live TV */}
@@ -92,7 +92,7 @@ export default function Header() {
               href="/live"
               className="rounded-md border border-yellow-400 bg-emerald-700 px-3 py-2 font-semibold text-white transition hover:bg-emerald-600"
             >
-              📺 Live TV
+              Live TV
             </Link>
 
           </div>
