@@ -24,7 +24,7 @@ export default function LoginPage() {
       });
 
       if (!result || result.error) {
-        setError("Invalid username or password.");
+        setError("Invalid email or password.");
         return;
       }
 
@@ -71,16 +71,16 @@ export default function LoginPage() {
               htmlFor="username"
               className="mb-2 block text-sm font-semibold text-gray-700"
             >
-              Username
+              Email
             </label>
 
             <input
               id="username"
-              type="text"
+              type="email"
               value={username}
               onChange={(event) => setUsername(event.target.value)}
-              placeholder="Enter your username"
-              autoComplete="username"
+              placeholder="Enter your admin email"
+              autoComplete="email"
               required
               className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
             />
