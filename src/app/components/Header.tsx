@@ -120,7 +120,6 @@ export default function Header() {
 
             <button
               type="button"
-              onClick={() => window.open("https://www.youtube.com/", "_blank", "noopener,noreferrer")}
               onClick={() => window.open("https://www.facebook.com/Africananewstv", "_blank", "noopener,noreferrer")} className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500"
             >
               Facebook
@@ -128,6 +127,7 @@ export default function Header() {
 
             <button
               type="button"
+              onClick={() => window.open("https://www.youtube.com/", "_blank", "noopener,noreferrer")}
               className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold transition hover:bg-red-500"
             >
               YouTube
@@ -154,7 +154,6 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             type="button"
-            onClick={() => window.open("https://www.youtube.com/", "_blank", "noopener,noreferrer")}
             onClick={() => setMenuOpen(!menuOpen)}
             className="rounded-lg border border-emerald-500 bg-emerald-800 px-3 py-2 text-2xl transition hover:bg-emerald-700 lg:hidden"
             aria-label="Toggle navigation menu"
@@ -179,6 +178,7 @@ export default function Header() {
 
               <button
                 type="button"
+              onClick={() => window.open("https://www.youtube.com/", "_blank", "noopener,noreferrer")}
                 className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold"
               >
                 YouTube
@@ -186,7 +186,7 @@ export default function Header() {
 
               <button
                 type="button"
-                onClick={() => window.open("https://x.com/", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://x.com/", "_blank", "noopener,noreferrer")}
                 className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold"
               >
                 X
@@ -194,7 +194,7 @@ export default function Header() {
 
               <button
                 type="button"
-                onClick={() => window.open("https://www.tiktok.com/", "_blank", "noopener,noreferrer")}
+              onClick={() => window.open("https://www.tiktok.com/", "_blank", "noopener,noreferrer")}
                 className="rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold"
               >
                 TikTok
