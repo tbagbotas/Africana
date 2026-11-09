@@ -1,13 +1,58 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { verifyAdminSession } from "@/lib/admin-auth";
+
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  const adminCookie = cookieStore.get("africana_admin");
+
+  if (!adminCookie?.value) {
+    return false;
+  }
+
+  let userId: number | null = null;
+
+  try {
+    userId = verifyAdminSession(adminCookie.value);
+  } catch {
+    return false;
+  }
+
+  if (!userId) {
+    return false;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  return user?.role === "admin";
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const isAdmin = await requireAdmin();
+
+    if (!isAdmin) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unauthorized.",
+        },
+        {
+          status: 401,
+        }
+      );
+    }
+
     const body = await req.json();
 
-    console.log("Updating article:", body);
-
-    const status = String(body.status || "Draft").toLowerCase();
+    const status = String(
+      body.status || "draft"
+    ).toLowerCase();
 
     const articleId = Number(body.id);
 
@@ -53,6 +98,81 @@ export async function POST(req: NextRequest) {
       publishedAt = scheduledDate;
     }
 
+    const slug = String(
+      body.slug || ""
+    ).trim();
+
+    const existingArticle =
+      await prisma.article.findUnique({
+        where: {
+          slug,
+        },
+      });
+
+    if (
+      existingArticle &&
+      existingArticle.id !== articleId
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "That slug is already in use by another article.",
+        },
+        {
+          status: 409,
+        }
+      );
+    }
+
+    const correspondentId =
+      body.correspondentId !== null &&
+      body.correspondentId !== undefined &&
+      body.correspondentId !== ""
+        ? Number(body.correspondentId)
+        : null;
+
+    if (
+      correspondentId !== null &&
+      (!Number.isInteger(correspondentId) ||
+        correspondentId < 1)
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid correspondent.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (correspondentId !== null) {
+      const correspondent =
+        await prisma.correspondent.findUnique({
+          where: {
+            id: correspondentId,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+      if (!correspondent) {
+        return NextResponse.json(
+          {
+            success: false,
+            error:
+              "Selected correspondent was not found.",
+          },
+          {
+            status: 404,
+          }
+        );
+      }
+    }
+
     const article = await prisma.article.update({
       where: {
         id: articleId,
@@ -60,12 +180,16 @@ export async function POST(req: NextRequest) {
 
       data: {
         title: body.title || "",
+        slug,
         subtitle: body.subtitle || "",
         category: body.category || "Africa",
+
+        correspondentId,
+
+        tags: body.tags || "",
         author: body.author || "Africana News",
         image: body.image || null,
         content: body.content || "",
-
         location: body.location || "",
         readTime: body.readTime || "5 min",
 
@@ -85,7 +209,7 @@ export async function POST(req: NextRequest) {
 
         featured: Boolean(body.featured),
         trending: Boolean(body.trending),
-               breaking: Boolean(body.breaking),
+        breaking: Boolean(body.breaking),
 
         publishedAt: publishedAt ?? undefined,
       },

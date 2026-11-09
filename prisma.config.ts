@@ -10,6 +10,8 @@ export default defineConfig({
   },
 
   datasource: {
-    url: env("DATABASE_URL"),
+    url: process.env.VERCEL_ENV === "preview"
+  ? env("AFRICANA_PREVIEW_DATABASE_URL_POOLED")
+  : env("DATABASE_URL"),
   },
 });

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -17,6 +18,26 @@ export default function AdminNav({
   const isArticles = pathname === "/admin/articles";
   const isNewArticle = pathname === "/admin/articles/new";
   const isMessages = pathname.startsWith("/admin/messages");
+  const isCorrespondents = pathname.startsWith("/admin/correspondents");
+  const isLiveInterviews =
+  pathname === "/admin/live-interviews" ||
+  pathname.startsWith("/admin/live-interviews/");
+
+const isJitsiInterviews =
+  pathname === "/admin/live-interviews-jitsi" ||
+  pathname.startsWith("/admin/live-interviews-jitsi/");
+  const isLiveTV = pathname === "/admin/live" || pathname.startsWith("/admin/live/");
+  const isPodcasts = pathname.startsWith("/admin/podcasts");
+  const isDonationSettings = pathname.startsWith(
+    "/admin/donation-settings"
+  );
+
+  const linkClass = (active: boolean) =>
+    `block rounded-lg px-3 py-3 font-semibold transition ${
+      active
+        ? "bg-emerald-700 text-white"
+        : "hover:bg-slate-800"
+    }`;
 
   return (
     <aside className="w-full bg-slate-950 text-white lg:min-h-screen lg:w-64">
@@ -39,26 +60,22 @@ export default function AdminNav({
         </p>
 
         <div className="space-y-2">
-          <Link
-            href="/admin/articles"
-            className={`block rounded-lg px-3 py-3 font-semibold transition ${
-              isArticles
-                ? "bg-emerald-700 text-white"
-                : "hover:bg-slate-800"
-            }`}
-          >
+          <Link href="/admin/articles" className={linkClass(isArticles)}>
             📰 Articles
           </Link>
 
           <Link
             href="/admin/articles/new"
-            className={`block rounded-lg px-3 py-3 font-semibold transition ${
-              isNewArticle
-                ? "bg-emerald-700 text-white"
-                : "hover:bg-slate-800"
-            }`}
+            className={linkClass(isNewArticle)}
           >
             ➕ New Article
+          </Link>
+
+          <Link
+            href="/admin/correspondents"
+            className={linkClass(isCorrespondents)}
+          >
+            👤 Correspondents
           </Link>
 
           <Link
@@ -77,6 +94,33 @@ export default function AdminNav({
               </span>
             )}
           </Link>
+
+          <Link
+            href="/admin/live"
+            className={linkClass(isLiveTV)}
+          >
+            📺 Live TV
+          </Link>
+
+          <Link
+            href="/admin/live-interviews"
+            className={linkClass(isLiveInterviews)}
+          >
+            🎥 Live Guest Interviews
+          </Link>
+<Link
+  href="/admin/live-interviews-jitsi"
+  className={linkClass(isJitsiInterviews)}
+>
+  🎬 Jitsi Interview Studio
+</Link>
+
+          <Link
+            href="/admin/podcasts"
+            className={linkClass(isPodcasts)}
+          >
+            🎙️ Podcasts
+          </Link>
         </div>
 
         <p className="mb-3 mt-8 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -91,13 +135,20 @@ export default function AdminNav({
           >
             🌐 View Website
           </Link>
+
+          <Link
+            href="/admin/donation-settings"
+            className={linkClass(isDonationSettings)}
+          >
+            💰 Donation Settings
+          </Link>
         </div>
 
-        <p className="mb-3 mt-8 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
-          Account
-        </p>
+        <div className="mt-8 border-t border-slate-800 pt-6">
+          <p className="mb-3 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+            Account
+          </p>
 
-        <div className="space-y-2">
           <LogoutButton />
         </div>
       </nav>

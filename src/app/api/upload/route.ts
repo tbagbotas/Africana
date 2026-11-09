@@ -1,17 +1,90 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+
 import cloudinary from "@/lib/cloudinary";
+import { prisma } from "@/lib/prisma";
+import { verifyAdminSession } from "@/lib/admin-auth";
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  const adminCookie = cookieStore.get("africana_admin");
+
+  if (!adminCookie?.value) {
+    return false;
+  }
+
+  let userId: number | null = null;
+
+  try {
+    userId = verifyAdminSession(adminCookie.value);
+  } catch {
+    return false;
+  }
+
+  if (!userId) {
+    return false;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  return user?.role === "admin";
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
+    const isAdmin = await requireAdmin();
 
-    const file = formData.get("file") as File | null;
-
-    if (!file) {
+    if (!isAdmin) {
       return NextResponse.json(
         {
           success: false,
-          message: "No file uploaded.",
+          message: "Unauthorized.",
+        },
+        {
+          status: 401,
+        }
+      );
+    }
+
+    const formData = await req.formData();
+
+    const file = formData.get("file");
+
+    if (!(file instanceof File)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "No valid file uploaded.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (!file.type.startsWith("image/")) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Only image files are allowed.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Image file is too large. Maximum size is 10 MB.",
         },
         {
           status: 400,
@@ -27,6 +100,7 @@ export async function POST(req: NextRequest) {
         const stream = cloudinary.uploader.upload_stream(
           {
             folder: "africana",
+            resource_type: "image",
           },
           (error, result) => {
             if (error) {

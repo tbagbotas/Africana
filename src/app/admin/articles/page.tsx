@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { verifyAdminSession } from "@/lib/admin-auth";
 import ArticlesClient from "./ArticlesClient";
 
 export default async function ArticlesPage() {
@@ -11,9 +12,15 @@ export default async function ArticlesPage() {
     redirect("/admin/login");
   }
 
-  const userId = Number(adminCookie.value);
+  let userId: number | null = null;
 
-  if (!Number.isInteger(userId)) {
+  try {
+    userId = verifyAdminSession(adminCookie.value);
+  } catch {
+    redirect("/admin/login");
+  }
+
+  if (!userId) {
     redirect("/admin/login");
   }
 

@@ -1,17 +1,41 @@
 export const dynamic = "force-dynamic";
 
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/app/auth";
 import { prisma } from "@/lib/prisma";
+import { verifyAdminSession } from "@/lib/admin-auth";
 
 import MessageActions from "./MessageActions";
 import AdminNav from "../components/AdminNav";
 
 export default async function MessagesPage() {
-  const session = await auth();
+  const cookieStore = await cookies();
+  const adminCookie = cookieStore.get("africana_admin");
 
-  if (!session?.user) {
+  if (!adminCookie?.value) {
+    redirect("/admin/login");
+  }
+
+  let userId: number | null = null;
+
+  try {
+    userId = verifyAdminSession(adminCookie.value);
+  } catch {
+    redirect("/admin/login");
+  }
+
+  if (!userId) {
+    redirect("/admin/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user || user.role !== "admin") {
     redirect("/admin/login");
   }
 
@@ -33,14 +57,10 @@ export default async function MessagesPage() {
 
   return (
     <main className="min-h-screen bg-slate-100 lg:flex">
-      {/* Admin Navigation */}
       <AdminNav unreadMessages={unreadMessages} />
 
-      {/* Main Content */}
       <div className="min-w-0 flex-1">
         <div className="mx-auto max-w-7xl px-6 py-8">
-
-          {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold">
               Contact Messages
@@ -51,9 +71,7 @@ export default async function MessagesPage() {
             </p>
           </div>
 
-          {/* Statistics */}
           <div className="mb-8 grid gap-6 md:grid-cols-3">
-
             <div className="rounded-xl bg-white p-6 shadow">
               <p className="text-gray-500">
                 Total Messages
@@ -83,13 +101,10 @@ export default async function MessagesPage() {
                 {readMessages}
               </h2>
             </div>
-
           </div>
 
-          {/* Messages */}
           {messages.length === 0 ? (
             <div className="rounded-2xl bg-white p-10 text-center shadow">
-
               <div className="text-5xl">
                 📭
               </div>
@@ -101,11 +116,9 @@ export default async function MessagesPage() {
               <p className="mt-2 text-gray-600">
                 Messages submitted through the contact form will appear here.
               </p>
-
             </div>
           ) : (
             <div className="space-y-6">
-
               {messages.map((message) => (
                 <article
                   key={message.id}
@@ -115,12 +128,8 @@ export default async function MessagesPage() {
                       : ""
                   }`}
                 >
-
                   <div className="flex flex-col gap-5">
-
-                    {/* Status */}
                     <div className="flex flex-wrap items-center gap-3">
-
                       {!message.read ? (
                         <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
                           NEW
@@ -136,17 +145,13 @@ export default async function MessagesPage() {
                           message.createdAt
                         ).toLocaleString()}
                       </span>
-
                     </div>
 
-                    {/* Subject */}
                     <h2 className="text-2xl font-bold text-gray-900">
                       {message.subject}
                     </h2>
 
-                    {/* Sender */}
                     <div className="space-y-1 text-sm">
-
                       <p>
                         <span className="font-semibold">
                           From:
@@ -166,19 +171,14 @@ export default async function MessagesPage() {
                           {message.email}
                         </a>
                       </p>
-
                     </div>
 
-                    {/* Message */}
                     <div className="rounded-xl bg-gray-50 p-5">
-
                       <p className="whitespace-pre-wrap leading-7 text-gray-700">
                         {message.message}
                       </p>
-
                     </div>
 
-                    {/* Actions */}
                     <div>
                       <MessageActions
                         id={message.id}
@@ -187,15 +187,11 @@ export default async function MessagesPage() {
                         subject={message.subject}
                       />
                     </div>
-
                   </div>
-
                 </article>
               ))}
-
             </div>
           )}
-
         </div>
       </div>
     </main>
