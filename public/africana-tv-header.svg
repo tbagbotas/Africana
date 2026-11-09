@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1727" height="310" viewBox="0 0 1727 310" role="img" aria-labelledby="title desc">
+  <title id="title">AFRICANA TV</title>
+  <desc id="desc">AFRICANA in white on a dark green banner with TV in white on a gold end panel.</desc>
+  <polygon points="104,0 1380,0 1330,310 0,310" fill="#003D2A"/>
+  <polygon points="1380,0 1727,0 1640,310 1330,310" fill="#C99100"/>
+  <text x="75" y="238" textLength="1190" lengthAdjust="spacingAndGlyphs" font-family="Arial, Helvetica, sans-serif" font-size="228" font-weight="700" letter-spacing="1" fill="#FFFFFF">AFRICANA</text>
+  <text x="1385" y="238" textLength="300" lengthAdjust="spacingAndGlyphs" font-family="Arial, Helvetica, sans-serif" font-size="228" font-weight="700" letter-spacing="1" fill="#FFFFFF">TV</text>
+</svg>
