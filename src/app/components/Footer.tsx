@@ -24,6 +24,8 @@ const companyLinks = [
   { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact Us" },
   { href: "/privacy", label: "Privacy Policy" },
+  { href: "/editorial-policy", label: "Editorial Policy" },
+  { href: "/corrections", label: "Corrections Policy" },
   { href: "/terms", label: "Terms of Service" },
 ];
 
