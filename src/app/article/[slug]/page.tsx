@@ -116,13 +116,17 @@ export default async function ArticlePage({
 }: PageProps) {
   const { slug } = await params;
 
-  const article: Article | null =
-    await prisma.article.findFirst({
-      where: {
-        slug,
-        ...publishedFilter,
+  const article = await prisma.article.findFirst({
+    where: {
+      slug,
+      ...publishedFilter,
+    },
+    include: {
+      correspondent: {
+        select: { name: true, slug: true },
       },
-    });
+    },
+  });
 
   if (!article) {
     notFound();
@@ -218,7 +222,13 @@ export default async function ArticlePage({
               <span>
                 ✍️{" "}
                 <strong className="text-gray-700">
-                  {article.author || "Africana News"}
+                  {article.correspondent ? (
+                    <Link href={`/author/${article.correspondent.slug}`} className="hover:text-emerald-800">
+                      {article.correspondent.name}
+                    </Link>
+                  ) : (
+                    article.author || "Africana News"
+                  )}
                 </strong>
               </span>
 

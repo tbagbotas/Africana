@@ -1,3 +1,6 @@
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
 export const metadata = {
   title: "Editorial Policy | AFRICANA",
   description:
@@ -40,7 +43,9 @@ const sections = [
 
 export default function EditorialPolicyPage() {
   return (
-    <main className="min-h-screen bg-gray-100">
+    <>
+      <Header />
+      <main className="min-h-screen bg-gray-100">
       <section className="bg-emerald-900 px-4 py-14 text-white">
         <div className="mx-auto max-w-4xl">
           <p className="text-sm font-bold uppercase tracking-widest text-yellow-300">
@@ -64,6 +69,8 @@ export default function EditorialPolicyPage() {
         ))}
         <p>Readers can raise a concern or suggest a correction through our <a className="font-semibold text-emerald-800 underline" href="/contact">contact page</a>.</p>
       </article>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

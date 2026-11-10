@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 const siteUrl = "https://www.africanatv.com";
 
@@ -12,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/editorial-policy",
     "/corrections",
     "/terms",
+    "/author/agbota-cyril",
   ];
 
   const articles = await prisma.article.findMany({
