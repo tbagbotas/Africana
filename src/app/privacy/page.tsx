@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export const metadata = {
   title: "Privacy Policy | AFRICANA",
@@ -8,7 +10,9 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-gray-100">
+    <>
+      <Header />
+      <main className="min-h-screen bg-gray-100">
       {/* Hero */}
       <section className="bg-emerald-900 px-4 py-16 text-white sm:py-20">
         <div className="mx-auto max-w-4xl text-center">
@@ -30,7 +34,7 @@ export default function PrivacyPage() {
       <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
         <article className="rounded-2xl bg-white p-6 shadow-lg sm:p-10">
           <p className="text-sm text-gray-500">
-            Last updated: August 2026
+            Last updated: November 2026
           </p>
 
           <div className="mt-8 space-y-8 text-gray-700 leading-7">
@@ -98,15 +102,23 @@ export default function PrivacyPage() {
               </h2>
 
               <p className="mt-3">
-                AFRICANA may use cookies or similar technologies in the
-                future to support website functionality, understand website
-                usage, and improve the user experience.
+                Essential cookies may be used to provide requested site features, such as keeping an administrator signed in. Your browser may also store preferences or technical information needed for the site to work. You can manage or delete cookies in your browser settings; blocking essential cookies may affect some features.
+              </p>
+              <p className="mt-3">
+                The site source currently contains no analytics tracking tags. If analytics tools are introduced, they may collect information such as pages visited, approximate location, device and browser details, and referral information. We will update this notice to identify the service and its controls.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-gray-900">6. Advertising and Google AdSense</h2>
+              <p className="mt-3">
+                The site source currently contains no Google AdSense advertising code. If AdSense or another advertising service is added, that provider may use cookies or similar technologies to serve, measure, or personalize ads and may process device identifiers, IP address, and browsing activity under its own privacy terms. Where required, we will provide consent controls before non-essential advertising technologies are used. You can also manage ad personalization through Google&apos;s account settings and review Google&apos;s privacy information.
               </p>
             </section>
 
             <section>
               <h2 className="text-2xl font-bold text-gray-900">
-                6. Third-Party Services
+                7. Third-Party Services
               </h2>
 
               <p className="mt-3">
@@ -123,7 +135,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-900">
-                7. Data Security
+                8. Data Security
               </h2>
 
               <p className="mt-3">
@@ -136,7 +148,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-900">
-                8. Your Rights
+                9. Your Rights
               </h2>
 
               <p className="mt-3">
@@ -149,7 +161,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-900">
-                9. Children&apos;s Privacy
+                10. Children&apos;s Privacy
               </h2>
 
               <p className="mt-3">
@@ -160,7 +172,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-900">
-                10. Changes to This Policy
+                11. Changes to This Policy
               </h2>
 
               <p className="mt-3">
@@ -172,7 +184,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-2xl font-bold text-gray-900">
-                11. Contact Us
+                12. Contact Us
               </h2>
 
               <p className="mt-3">
@@ -199,6 +211,8 @@ export default function PrivacyPage() {
           </Link>
         </div>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }
