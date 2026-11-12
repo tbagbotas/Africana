@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import type { Article } from "@prisma/client";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -64,10 +65,10 @@ export async function generateMetadata({
     article.subtitle?.trim() ||
     "Read the latest African news and stories on Africana.";
 
-  const keywords =
+  const keywords: string[] =
     article.keywords
       ?.split(",")
-      .map((keyword) => keyword.trim())
+      .map((keyword: string) => keyword.trim())
       .filter(Boolean) || [];
 
   return {
@@ -115,46 +116,48 @@ export default async function ArticlePage({
 }: PageProps) {
   const { slug } = await params;
 
-  const article = await prisma.article.findFirst({
-    where: {
-      slug,
-      ...publishedFilter,
-    },
-  });
+  const article: Article | null =
+    await prisma.article.findFirst({
+      where: {
+        slug,
+        ...publishedFilter,
+      },
+    });
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = await prisma.article.findMany({
-    where: {
-      category: article.category,
-      ...publishedFilter,
-      NOT: {
-        slug: article.slug,
+  const relatedArticles: Article[] =
+    await prisma.article.findMany({
+      where: {
+        category: article.category,
+        ...publishedFilter,
+        NOT: {
+          slug: article.slug,
+        },
       },
-    },
-    orderBy: {
-      publishedAt: "desc",
-    },
-    take: 3,
-  });
+      orderBy: {
+        publishedAt: "desc",
+      },
+      take: 3,
+    });
 
   /*
    * Clean tags before displaying them.
    * This prevents accidental SEO text from
    * appearing inside the visible Tags section.
    */
-  const cleanTags =
+  const cleanTags: string[] =
     article.tags
       ?.split(",")
-      .map((tag) => tag.trim())
+      .map((tag: string) => tag.trim())
       .filter(Boolean)
       .filter(
-        (tag) =>
+        (tag: string) =>
           !tag.toLowerCase().includes("seo title:")
       )
-      .map((tag) =>
+      .map((tag: string) =>
         tag.replace(/seo title:.*/i, "").trim()
       )
       .filter(Boolean) || [];
@@ -300,7 +303,7 @@ export default async function ArticlePage({
 
                 <div className="flex flex-wrap gap-2">
 
-                  {cleanTags.map((tag) => (
+                  {cleanTags.map((tag: string) => (
                     <span
                       key={tag}
                       className="rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
@@ -348,7 +351,7 @@ export default async function ArticlePage({
 
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-                {relatedArticles.map((item) => {
+                {relatedArticles.map((item: Article) => {
 
                   const relatedExcerpt = (
                     item.excerpt ||
@@ -440,7 +443,7 @@ export default async function ArticlePage({
               href="/latest"
               className="inline-block rounded-xl bg-emerald-700 px-7 py-3 font-bold text-white transition hover:bg-emerald-800"
             >
-              ← Back to Latest News
+              ← Back to Latest
             </Link>
 
           </div>

@@ -1,4 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import "dotenv/config";
+
+import { PrismaClient } from "../../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const globalForPrisma = globalThis as unknown as {
@@ -6,7 +8,10 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
+  connectionString:
+  process.env.VERCEL_ENV === "preview"
+    ? process.env.AFRICANA_PREVIEW_DATABASE_URL_POOLED!
+    : process.env.DATABASE_URL!,
 });
 
 export const prisma =

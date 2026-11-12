@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface MediaLibraryProps {
   images: string[];
   onSelect: (image: string) => void;
@@ -28,9 +30,12 @@ export default function MediaLibrary({
               onClick={() => onSelect(image)}
               className="overflow-hidden rounded-lg border hover:border-emerald-600"
             >
-              <img
+              <Image
                 src={image}
                 alt="Media"
+                width={400}
+                height={200}
+                unoptimized
                 className="h-32 w-full object-cover"
               />
             </button>

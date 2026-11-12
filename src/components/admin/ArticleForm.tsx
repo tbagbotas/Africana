@@ -20,7 +20,8 @@ export default function ArticleForm() {
   const [image, setImage] = useState("");
   const [mediaLibrary, setMediaLibrary] = useState<string[]>([]);
 
-  const [category, setCategory] = useState("General");
+  const [category, setCategory] = useState("");
+  const [correspondentId, setCorrespondentId] = useState("");
   const [author, setAuthor] = useState("Africana News");
   const [location, setLocation] = useState("");
   const [readTime, setReadTime] = useState("5 min");
@@ -40,20 +41,62 @@ export default function ArticleForm() {
 
   const [publishing, setPublishing] = useState(false);
 
+  const [correspondents, setCorrespondents] = useState<
+    { id: number; name: string }[]
+  >([]);
+
   useDraft("draft-title", title, setTitle);
   useDraft("draft-subtitle", subtitle, setSubtitle);
   useDraft("draft-slug", slug, setSlug);
   useDraft("draft-content", content, setContent);
   useDraft("draft-seo-title", seoTitle, setSeoTitle);
-  useDraft("draft-meta-description", metaDescription, setMetaDescription);
+  useDraft(
+    "draft-meta-description",
+    metaDescription,
+    setMetaDescription
+  );
   useDraft("draft-keywords", keywords, setKeywords);
   useDraft("draft-category", category, setCategory);
+  useDraft(
+    "draft-correspondent-id",
+    correspondentId,
+    setCorrespondentId
+  );
   useDraft("draft-author", author, setAuthor);
+  useDraft("draft-location", location, setLocation);
+  useDraft("draft-read-time", readTime, setReadTime);
   useDraft("draft-tags", tags, setTags);
   useDraft("draft-image", image, setImage);
   useDraft("draft-featured", featured, setFeatured);
   useDraft("draft-trending", trending, setTrending);
   useDraft("draft-breaking", breaking, setBreaking);
+
+  useEffect(() => {
+    async function loadCorrespondents() {
+      try {
+        const response = await fetch("/api/correspondents");
+
+        if (!response.ok) {
+          throw new Error("Failed to load correspondents.");
+        }
+
+        const data = await response.json();
+
+        setCorrespondents(
+          Array.isArray(data.correspondents)
+            ? data.correspondents
+            : []
+        );
+      } catch (error) {
+        console.error(
+          "Failed to load correspondents:",
+          error
+        );
+      }
+    }
+
+    loadCorrespondents();
+  }, []);
 
   useEffect(() => {
     try {
@@ -66,12 +109,15 @@ export default function ArticleForm() {
       const parsedMedia = JSON.parse(savedMedia);
 
       if (Array.isArray(parsedMedia)) {
-       setTimeout(() => {
-  setMediaLibrary(parsedMedia);
-}, 0);
+        setTimeout(() => {
+          setMediaLibrary(parsedMedia);
+        }, 0);
       }
     } catch (error) {
-      console.error("Failed to load media library:", error);
+      console.error(
+        "Failed to load media library:",
+        error
+      );
     }
   }, []);
 
@@ -82,7 +128,10 @@ export default function ArticleForm() {
         JSON.stringify(mediaLibrary)
       );
     } catch (error) {
-      console.error("Failed to save media library:", error);
+      console.error(
+        "Failed to save media library:",
+        error
+      );
     }
   }, [mediaLibrary]);
 
@@ -108,7 +157,10 @@ export default function ArticleForm() {
       "draft-meta-description",
       "draft-keywords",
       "draft-category",
+      "draft-correspondent-id",
       "draft-author",
+      "draft-location",
+      "draft-read-time",
       "draft-tags",
       "draft-image",
       "draft-featured",
@@ -132,6 +184,11 @@ export default function ArticleForm() {
       return;
     }
 
+    if (!category.trim()) {
+      alert("Please select an article category.");
+      return;
+    }
+
     if (
       status === "scheduled" &&
       (!publishDate || !publishTime)
@@ -144,35 +201,39 @@ export default function ArticleForm() {
 
     try {
       setPublishing(true);
-console.log("IMAGE BEING SENT:", image);
-      const response = await fetch("/api/articles/publish", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: articleId,
-          title,
-          subtitle,
-          slug,
-          content,
-          image,
-          category,
-          author,
-          location,
-          readTime,
-          tags,
-          seoTitle,
-          metaDescription,
-          keywords,
-          publishDate,
-          publishTime,
-          status,
-          featured,
-          trending,
-          breaking,
-        }),
-      });
+
+      const response = await fetch(
+        "/api/articles/publish",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: articleId,
+            title,
+            subtitle,
+            slug,
+            content,
+            image,
+            category,
+            correspondentId,
+            author,
+            location,
+            readTime,
+            tags,
+            seoTitle,
+            metaDescription,
+            keywords,
+            publishDate,
+            publishTime,
+            status,
+            featured,
+            trending,
+            breaking,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -212,7 +273,8 @@ console.log("IMAGE BEING SENT:", image);
       setContent("");
       setImage("");
 
-      setCategory("General");
+      setCategory("");
+      setCorrespondentId("");
       setAuthor("Africana News");
       setLocation("");
       setReadTime("5 min");
@@ -234,7 +296,10 @@ console.log("IMAGE BEING SENT:", image);
 
       clearDraftStorage();
     } catch (error) {
-      console.error("Article publishing error:", error);
+      console.error(
+        "Article publishing error:",
+        error
+      );
 
       const message =
         error instanceof Error
@@ -297,7 +362,9 @@ console.log("IMAGE BEING SENT:", image);
                 <input
                   type="text"
                   value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
+                  onChange={(e) =>
+                    setSlug(e.target.value)
+                  }
                   placeholder="article-url-slug"
                   className="w-full rounded-lg border border-gray-300 p-3 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
                 />
@@ -312,7 +379,9 @@ console.log("IMAGE BEING SENT:", image);
                 <input
                   type="text"
                   value={subtitle}
-                  onChange={(e) => setSubtitle(e.target.value)}
+                  onChange={(e) =>
+                    setSubtitle(e.target.value)
+                  }
                   placeholder="Subtitle..."
                   className="w-full rounded-lg border border-gray-300 p-3 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
                 />
@@ -363,11 +432,21 @@ console.log("IMAGE BEING SENT:", image);
                       }
                       className="w-full rounded-lg border border-gray-300 bg-white p-3 outline-none focus:border-emerald-600"
                     >
-                      <option value="3 min">3 min</option>
-                      <option value="5 min">5 min</option>
-                      <option value="7 min">7 min</option>
-                      <option value="10 min">10 min</option>
-                      <option value="15 min">15 min</option>
+                      <option value="3 min">
+                        3 min
+                      </option>
+                      <option value="5 min">
+                        5 min
+                      </option>
+                      <option value="7 min">
+                        7 min
+                      </option>
+                      <option value="10 min">
+                        10 min
+                      </option>
+                      <option value="15 min">
+                        15 min
+                      </option>
                     </select>
                   </div>
 
@@ -479,6 +558,9 @@ console.log("IMAGE BEING SENT:", image);
             setCategory={setCategory}
             author={author}
             setAuthor={setAuthor}
+            correspondentId={correspondentId}
+            setCorrespondentId={setCorrespondentId}
+            correspondents={correspondents}
             tags={tags}
             setTags={setTags}
             featured={featured}

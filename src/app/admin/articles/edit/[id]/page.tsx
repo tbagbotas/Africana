@@ -1,9 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import { notFound, redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-import { auth } from "@/app/auth";
 import { prisma } from "@/lib/prisma";
+import { verifyAdminSession } from "@/lib/admin-auth";
 
 import AdminNav from "../../../components/AdminNav";
 import EditArticleForm from "./EditArticleForm";
@@ -17,9 +18,32 @@ interface PageProps {
 export default async function EditArticlePage({
   params,
 }: PageProps) {
-  const session = await auth();
+  const cookieStore = await cookies();
+  const adminCookie = cookieStore.get("africana_admin");
 
-  if (!session?.user) {
+  if (!adminCookie?.value) {
+    redirect("/admin/login");
+  }
+
+  let userId: number | null = null;
+
+  try {
+    userId = verifyAdminSession(adminCookie.value);
+  } catch {
+    redirect("/admin/login");
+  }
+
+  if (!userId) {
+    redirect("/admin/login");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user || user.role !== "admin") {
     redirect("/admin/login");
   }
 
@@ -61,12 +85,15 @@ export default async function EditArticlePage({
               article={{
                 id: article.id,
                 title: article.title,
+                slug: article.slug,
                 subtitle: article.subtitle,
                 category: article.category || "Africa",
+                correspondentId: article.correspondentId,
                 author: article.author,
                 content: article.content,
                 image: article.image,
                 location: article.location,
+                tags: article.tags,
                 readTime: article.readTime,
                 seoTitle: article.seoTitle,
                 metaDescription: article.metaDescription,

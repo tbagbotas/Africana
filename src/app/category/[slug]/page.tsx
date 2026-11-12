@@ -11,7 +11,20 @@ interface PageProps {
 export default async function Category({ params }: PageProps) {
   const { slug } = await params;
 
-  const categoryName = slug.charAt(0).toUpperCase() + slug.slice(1);
+  const categoryMap: Record<string, string> = {
+    africa: "Africa",
+    business: "Business",
+    politics: "Politics",
+    technology: "Technology",
+    sports: "Sports",
+    world: "World",
+    entertainment: "Entertainment",
+    climate: "Climate",
+  };
+
+  const categoryName =
+    categoryMap[slug.toLowerCase()] ??
+    (slug.charAt(0).toUpperCase() + slug.slice(1));
 
   const articles = await prisma.article.findMany({
     where: {
@@ -52,7 +65,7 @@ export default async function Category({ params }: PageProps) {
   return (
     <CategoryPage
       title={`${categoryName} News`}
-      description={`Latest ${categoryName.toLowerCase()} news and stories.`}
+      description={`Latest ${categoryName} news and stories.`}
       articles={formattedArticles}
     />
   );

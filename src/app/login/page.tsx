@@ -34,7 +34,7 @@ export default function LoginPage() {
         return;
       }
 
-      window.location.href = "/admin";
+     window.location.href = "/admin/articles";
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {

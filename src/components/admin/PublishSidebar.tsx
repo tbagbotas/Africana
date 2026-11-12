@@ -7,6 +7,10 @@ type PublishSidebarProps = {
   author: string;
   setAuthor: (value: string) => void;
 
+  correspondentId: string;
+  setCorrespondentId: (value: string) => void;
+  correspondents: { id: number; name: string }[];
+
   tags: string;
   setTags: (value: string) => void;
 
@@ -25,6 +29,9 @@ export default function PublishSidebar({
   setCategory,
   author,
   setAuthor,
+  correspondentId,
+  setCorrespondentId,
+  correspondents,
   tags,
   setTags,
   featured,
@@ -41,6 +48,7 @@ export default function PublishSidebar({
           Article Details
         </h2>
 
+        {/* CATEGORY */}
         <label className="mb-2 block font-medium">
           Category
         </label>
@@ -61,6 +69,33 @@ export default function PublishSidebar({
           <option value="World">World</option>
         </select>
 
+        {/* CORRESPONDENT */}
+        <label className="mb-2 block font-medium">
+          Correspondent
+        </label>
+
+        <select
+          value={correspondentId}
+          onChange={(e) =>
+            setCorrespondentId(e.target.value)
+          }
+          className="mb-4 w-full rounded-lg border p-3"
+        >
+          <option value="">
+            Select Correspondent
+          </option>
+
+          {correspondents.map((correspondent) => (
+            <option
+              key={correspondent.id}
+              value={correspondent.id}
+            >
+              {correspondent.name}
+            </option>
+          ))}
+        </select>
+
+        {/* AUTHOR */}
         <label className="mb-2 block font-medium">
           Author
         </label>
@@ -73,6 +108,7 @@ export default function PublishSidebar({
           className="mb-4 w-full rounded-lg border p-3"
         />
 
+        {/* TAGS */}
         <label className="mb-2 block font-medium">
           Tags
         </label>
@@ -85,12 +121,15 @@ export default function PublishSidebar({
           className="mb-4 w-full rounded-lg border p-3"
         />
 
+        {/* ARTICLE OPTIONS */}
         <div className="space-y-3">
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
+              onChange={(e) =>
+                setFeatured(e.target.checked)
+              }
             />
             Featured
           </label>
@@ -99,7 +138,9 @@ export default function PublishSidebar({
             <input
               type="checkbox"
               checked={trending}
-              onChange={(e) => setTrending(e.target.checked)}
+              onChange={(e) =>
+                setTrending(e.target.checked)
+              }
             />
             Trending
           </label>
@@ -108,7 +149,9 @@ export default function PublishSidebar({
             <input
               type="checkbox"
               checked={breaking}
-              onChange={(e) => setBreaking(e.target.checked)}
+              onChange={(e) =>
+                setBreaking(e.target.checked)
+              }
             />
             Breaking News
           </label>

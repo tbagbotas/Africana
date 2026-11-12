@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -24,14 +25,14 @@ function getFallbackImage(category: string | null) {
   }
 
   if (value.includes("entertain")) {
-    return "/images/entertainment.jpg";
+    return "/images/entertainment.avif";
   }
 
   if (value.includes("world")) {
     return "/images/world.jpg";
   }
 
-  return "/images/africa.jpg";
+  return "/images/africa1.jpg";
 }
 
 export default async function LatestPage() {

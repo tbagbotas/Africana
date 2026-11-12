@@ -2,6 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
+function cleanText(text: string) {
+  return text
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 export default async function TrendingNews() {
   const now = new Date();
 
@@ -55,7 +62,7 @@ export default async function TrendingNews() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
+    <section className="mx-auto w-full max-w-[1800px] px-4 py-12 lg:px-6">
       <div className="mb-8 flex items-end justify-between">
         <div>
           <span className="text-sm font-bold uppercase tracking-wider text-emerald-700">
@@ -63,7 +70,7 @@ export default async function TrendingNews() {
           </span>
 
           <h2 className="mt-1 text-3xl font-extrabold sm:text-4xl">
-            🔥 Trending Today
+            Trending Today
           </h2>
         </div>
 
@@ -78,11 +85,7 @@ export default async function TrendingNews() {
       <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
         {trendingArticles.map((article, index) => {
           const rawText = article.excerpt || article.content || "";
-
-          const cleanExcerpt = rawText
-            .replace(/<[^>]*>/g, " ")
-            .replace(/\s+/g, " ")
-            .trim();
+          const cleanExcerpt = cleanText(rawText);
 
           const excerpt =
             cleanExcerpt.length > 140
@@ -100,7 +103,7 @@ export default async function TrendingNews() {
               >
                 <div className="relative h-56 overflow-hidden">
                   <Image
-                    src={article.image || "/images/africa.jpg"}
+                    src={article.image || "/images/africa1.jpg"}
                     alt={article.title}
                     fill
                     unoptimized
@@ -126,7 +129,7 @@ export default async function TrendingNews() {
 
               <div className="p-6">
                 <span className="inline-block rounded-full bg-emerald-700 px-3 py-1 text-xs font-semibold text-white">
-                  {article.category}
+                  {article.category || "Africa"}
                 </span>
 
                 <h3 className="mt-4 text-2xl font-bold leading-tight transition group-hover:text-emerald-700">
@@ -143,11 +146,11 @@ export default async function TrendingNews() {
 
                 <div className="mt-5 flex flex-wrap gap-4 text-sm text-gray-500">
                   <span>
-                    ✍️ {article.author || "Africana News"}
+                    By {article.author || "Africana News"}
                   </span>
 
                   <span>
-                    ⏱ {article.readTime || "5 min"}
+                    {article.readTime || "5 min"}
                   </span>
                 </div>
 
