@@ -14,7 +14,7 @@ const navItems = [
   { href: "/category/world", label: "World" },
   { href: "/category/entertainment", label: "Entertainment" },
   { href: "/category/climate", label: "Climate" },
-    { href: "/correspondents", label: "Correspondents" },
+  { href: "/correspondents", label: "Correspondents" },
 ];
 
 const featureItems = [
@@ -27,19 +27,19 @@ const featureItems = [
 
 const socialLinks = [
   {
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/Africananewstv",
     label: "Facebook",
     className:
       "rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold transition hover:bg-blue-500",
   },
   {
-    href: "https://www.youtube.com/",
+    href: "https://youtube.com/@africanatvnigeria?si=xRVHki4HFeGS0i2r",
     label: "YouTube",
     className:
       "rounded-md bg-red-600 px-4 py-2 text-sm font-semibold transition hover:bg-red-500",
   },
   {
-    href: "https://x.com/",
+    href: "https://x.com/tbagbotas?s=11",
     label: "X",
     className:
       "rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold transition hover:bg-gray-700",
@@ -74,12 +74,10 @@ export default function Header() {
 
   const handleSearch = () => {
     const query = search.trim();
-
     if (!query) {
       alert("Please enter something to search.");
       return;
     }
-
     router.push(`/search?q=${encodeURIComponent(query)}`);
     setMenuOpen(false);
   };
@@ -107,13 +105,10 @@ export default function Header() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch();
-                  }
+                  if (e.key === "Enter") handleSearch();
                 }}
                 className="min-w-0 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-black outline-none focus:ring-2 focus:ring-yellow-400 sm:w-64"
               />
-
               <button
                 type="button"
                 onClick={handleSearch}
@@ -147,7 +142,7 @@ export default function Header() {
         </div>
       </div>
 
-            {/* Logo Section */}
+      {/* Logo Section */}
       <div className="bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
           <Link href="/" onClick={closeMenu}>
@@ -204,6 +199,7 @@ export default function Header() {
           </div>
         )}
       </div>
+
       {/* Desktop Navigation */}
       <nav className="hidden border-t border-emerald-700 bg-emerald-800 text-white lg:block">
         <div className="mx-auto max-w-7xl px-4 md:px-6">
@@ -246,7 +242,6 @@ export default function Header() {
                 aria-expanded={featuresOpen}
               >
                 Features
-
                 <span
                   className={`text-xs transition-transform ${
                     featuresOpen ? "rotate-180" : ""
@@ -320,7 +315,6 @@ export default function Header() {
                   className="flex w-full items-center justify-between rounded-lg bg-emerald-700 px-4 py-3 font-semibold transition hover:bg-emerald-600"
                 >
                   <span>Features</span>
-
                   <span
                     className={`text-xs transition-transform ${
                       featuresOpen ? "rotate-180" : ""

@@ -45,7 +45,6 @@ export default async function Hero() {
           <h2 className="text-2xl font-bold text-gray-900">
             No published articles yet
           </h2>
-
           <p className="mt-2 text-gray-600">
             Publish your first article from the Admin panel.
           </p>
@@ -54,8 +53,7 @@ export default async function Hero() {
     );
   }
 
-  const featuredArticle =
-    articles.find((article) => article.featured) ?? articles[0];
+  const featuredArticle = articles.find((article) => article.featured) ?? articles[0];
 
   const topStories = articles
     .filter((article) => article.id !== featuredArticle.id)
@@ -69,13 +67,8 @@ export default async function Hero() {
     })
     .slice(0, 5);
 
-  const rawExcerpt =
-    featuredArticle.excerpt ||
-    featuredArticle.content ||
-    "";
-
+  const rawExcerpt = featuredArticle.excerpt || featuredArticle.content || "";
   const cleanExcerpt = cleanText(rawExcerpt);
-
   const heroExcerpt =
     cleanExcerpt.length > 240
       ? `${cleanExcerpt.substring(0, 240)}...`
@@ -86,10 +79,7 @@ export default async function Hero() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Main Featured Story */}
         <article className="group overflow-hidden rounded-2xl bg-white shadow-xl lg:col-span-2">
-          <Link
-            href={`/article/${featuredArticle.slug}`}
-            className="block"
-          >
+          <Link href={`/article/${featuredArticle.slug}`} className="block">
             <div className="relative aspect-16/10 w-full overflow-hidden sm:aspect-video">
               <Image
                 src={featuredArticle.image || "/images/africa1.jpg"}
@@ -108,13 +98,11 @@ export default async function Hero() {
                     BREAKING
                   </span>
                 )}
-
                 {featuredArticle.featured && (
                   <span className="rounded-full bg-yellow-400 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide text-black shadow-lg">
                     FEATURED
                   </span>
                 )}
-
                 {featuredArticle.trending && (
                   <span className="rounded-full bg-orange-500 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wide text-white shadow-lg">
                     TRENDING
@@ -138,30 +126,19 @@ export default async function Hero() {
                 )}
 
                 <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-gray-200 sm:text-sm">
-                  <span>
-                    By {featuredArticle.author || "Africana News"}
-                  </span>
-
+                  <span>By {featuredArticle.author || "Africana News"}</span>
                   {featuredArticle.location && (
-                    <span>
-                      Location: {featuredArticle.location}
-                    </span>
+                    <span>Location: {featuredArticle.location}</span>
                   )}
-
                   <span>
                     Published{" "}
-                    {new Date(
-                      featuredArticle.publishedAt
-                    ).toLocaleDateString("en-GB", {
+                    {new Date(featuredArticle.publishedAt).toLocaleDateString("en-GB", {
                       day: "numeric",
                       month: "short",
                       year: "numeric",
                     })}
                   </span>
-
-                  <span>
-                    {featuredArticle.readTime || "5 min"}
-                  </span>
+                  <span>{featuredArticle.readTime || "5 min"}</span>
                 </div>
               </div>
             </div>
@@ -193,12 +170,10 @@ export default async function Hero() {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-700">
                 Africana
               </p>
-
               <h2 className="mt-1 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                 Top Stories
               </h2>
             </div>
-
             <Link
               href="/latest"
               className="mb-1 text-sm font-bold text-emerald-700 transition hover:text-emerald-900"
@@ -222,7 +197,6 @@ export default async function Hero() {
                     sizes="112px"
                     className="object-cover transition duration-500 group-hover:scale-110"
                   />
-
                   <span className="absolute left-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/85 text-sm font-black text-white shadow-lg ring-2 ring-white/70">
                     {index + 1}
                   </span>
@@ -233,13 +207,11 @@ export default async function Hero() {
                     <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wide text-emerald-800">
                       {article.category || "Africa"}
                     </span>
-
                     {article.breaking && (
                       <span className="rounded-full bg-red-100 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wide text-red-700">
                         BREAKING
                       </span>
                     )}
-
                     {article.trending && (
                       <span className="rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wide text-orange-700">
                         TRENDING

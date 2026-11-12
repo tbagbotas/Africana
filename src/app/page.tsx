@@ -1,10 +1,7 @@
-
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-
 import Header from "./components/Header";
-import BreakingNews from "./components/BreakingNews";
 import Hero from "./components/Hero";
 import TrendingNews from "./components/TrendingNews";
 import LatestNews from "./components/LatestNews";
@@ -16,12 +13,13 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-100">
       <Header />
-      <BreakingNews />
+
       <Hero />
       <TrendingNews />
       <LatestNews />
+      
+      <LiveTV />
 
-<LiveTV />
       {/* Support Africana TV */}
       <section className="bg-green-900 px-6 py-16 text-white">
         <div className="mx-auto max-w-6xl text-center">

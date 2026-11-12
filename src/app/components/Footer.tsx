@@ -29,7 +29,7 @@ const companyLinks = [
 
 const socialLinks = [
   {
-    href: "https://www.facebook.com/",
+    href: "https://www.facebook.com/Africananewstv",
     label: "Facebook",
     ariaLabel: "AFRICANA TV on Facebook",
     className:
