@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import type { Article } from "@prisma/client";
+import type { Article } from "../../../../generated/prisma/client";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
