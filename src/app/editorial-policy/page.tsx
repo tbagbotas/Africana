@@ -24,7 +24,7 @@ const sections = [
   {
     title: "AI use",
     paragraphs: [
-      "Editorial responsibility remains with AFRICANA journalists and editors. If an AI tool is used to create or materially alter published text, images, audio, or video, we will disclose that use in or alongside the relevant content. AI output is not treated as a source and must be checked by a human editor before publication.",
+      "AFRICANA uses AI-assisted tools to draft article metadata, prepare audio and video transcripts, and, where moderation tools are enabled, help flag material for review. These tools support newsroom work and do not publish content or make final editorial decisions. A human editor reviews and approves every AI-assisted item before it is published. AI output is not treated as a source; relevant AI use is disclosed alongside published material when it materially shapes that material.",
     ],
   },
   {

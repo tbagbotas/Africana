@@ -4,6 +4,21 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import LiveTV from "../components/LiveTV";
+import StreamingPlatformLinks from "../components/StreamingPlatformLinks";
+import { availableStreamingPlatforms } from "@/config/streaming";
+
+const liveBroadcastSchema = {
+  "@context": "https://schema.org",
+  "@type": "BroadcastEvent",
+  name: "Africana Live TV",
+  description: "Live news, interviews and broadcasts from Africa and around the world.",
+  isLiveBroadcast: true,
+  videoFormat: "HD",
+  publishedOn: {
+    "@type": "BroadcastService",
+    name: "Africana TV",
+  },
+};
 
 export const metadata: Metadata = {
   title: "Live TV | Africana",
@@ -29,6 +44,21 @@ export default function LivePage() {
 
       <LiveTV />
 
+      <section className="mx-auto max-w-7xl px-4 py-8 lg:px-6" aria-labelledby="platforms-heading">
+        <div className="rounded-xl border border-emerald-900/10 bg-white p-5 text-center shadow-sm sm:p-7">
+          <h2 id="platforms-heading" className="text-xl font-bold text-gray-950 sm:text-2xl">
+            Watch on your favorite platform
+          </h2>
+          <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-gray-600">
+            Our live broadcast is available simultaneously across all configured platforms.
+          </p>
+          <StreamingPlatformLinks
+            platforms={availableStreamingPlatforms}
+            className="mt-5 [&_a]:border-gray-200 [&_a]:bg-gray-50 [&_a]:text-gray-800 [&_a:hover]:bg-emerald-50"
+          />
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-4 pb-12 lg:px-6">
         <div className="rounded-xl bg-white p-6 text-center shadow-sm">
           <p className="text-gray-600">
@@ -44,6 +74,10 @@ export default function LivePage() {
       </section>
 
       <Footer />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(liveBroadcastSchema) }}
+      />
     </main>
   );
 }

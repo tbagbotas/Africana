@@ -97,6 +97,7 @@ export default async function EditArticlePage({
                 readTime: article.readTime,
                 seoTitle: article.seoTitle,
                 metaDescription: article.metaDescription,
+                newsletterDraft: article.newsletterDraft,
                 keywords: article.keywords,
                 status: article.status,
                 publishedAt: article.publishedAt,

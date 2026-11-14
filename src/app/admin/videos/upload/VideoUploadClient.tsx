@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
+import TranscriptReview from "@/components/admin/TranscriptReview";
 
 const categories = [
   "News Reports",
@@ -29,6 +30,7 @@ export default function VideoUploadPage() {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [uploadedVideo, setUploadedVideo] = useState<{ id: number; videoUrl: string; transcriptVtt?: string | null; transcriptApproved?: boolean } | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -70,6 +72,7 @@ export default function VideoUploadPage() {
       }
 
       setMessage("Video uploaded successfully.");
+      if (data.video?.id && data.video?.videoUrl) setUploadedVideo(data.video);
 
       setTitle("");
       setDescription("");
@@ -338,6 +341,7 @@ export default function VideoUploadPage() {
             </div>
           </div>
         </form>
+        {uploadedVideo && <TranscriptReview id={uploadedVideo.id} type="video" mediaUrl={uploadedVideo.videoUrl} initialTranscript={uploadedVideo.transcriptVtt} initialApproved={uploadedVideo.transcriptApproved} />}
       </div>
     </main>
   );

@@ -48,7 +48,7 @@ export default function DonatePage() {
               <article key={method.title} className="flex flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
                 <h3 className="text-lg font-bold text-gray-950">{method.title}</h3>
                 <p className="mt-2 flex-1 leading-6 text-gray-600">{method.description}</p>
-                <a href={method.href} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex justify-center rounded-lg bg-emerald-700 px-5 py-3 font-bold text-white hover:bg-emerald-800">{method.label} <span className="ml-2" aria-hidden="true">↗</span></a>
+                <a href={method.href} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex justify-center rounded-lg bg-[#996515] px-5 py-3 font-bold text-white transition hover:bg-[#B8860B]">{method.label} <span className="ml-2" aria-hidden="true">↗</span></a>
               </article>
             ))}
             <article className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">

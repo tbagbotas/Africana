@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import TranscriptReview from "@/components/admin/TranscriptReview";
 
 const categories = [
   "News Analysis",
@@ -18,6 +19,7 @@ export default function UploadPodcastPage() {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [uploadedPodcast, setUploadedPodcast] = useState<{ id: number; audioUrl?: string | null; videoUrl?: string | null; transcriptVtt?: string | null; transcriptApproved?: boolean } | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,6 +44,7 @@ export default function UploadPodcastPage() {
       }
 
       setMessage("Podcast uploaded successfully.");
+      if (data.podcast?.id && (data.podcast?.audioUrl || data.podcast?.videoUrl)) setUploadedPodcast(data.podcast);
 
       form.reset();
 
@@ -414,6 +417,7 @@ export default function UploadPodcastPage() {
             </div>
           </div>
         </form>
+        {uploadedPodcast && <TranscriptReview id={uploadedPodcast.id} type="podcast" mediaUrl={uploadedPodcast.audioUrl || uploadedPodcast.videoUrl || ""} initialTranscript={uploadedPodcast.transcriptVtt} initialApproved={uploadedPodcast.transcriptApproved} />}
       </div>
     </main>
   );

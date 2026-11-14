@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import TranscriptReview from "@/components/admin/TranscriptReview";
 
 interface Podcast {
   id: string;
@@ -17,6 +18,8 @@ interface Podcast {
   thumbnail: string | null;
   publishedAt: string | null;
   createdAt: string;
+  transcriptVtt?: string | null;
+  transcriptApproved?: boolean;
 }
 
 export default function AdminPodcastsPage() {
@@ -366,6 +369,7 @@ export default function AdminPodcastsPage() {
                     </div>
                   </div>
                 </div>
+                {(podcast.audioUrl || podcast.videoUrl) && <div className="px-6 pb-6"><TranscriptReview id={Number(podcast.id)} type="podcast" mediaUrl={podcast.audioUrl || podcast.videoUrl || ""} initialTranscript={podcast.transcriptVtt} initialApproved={podcast.transcriptApproved} /></div>}
               </article>
             ))}
           </div>

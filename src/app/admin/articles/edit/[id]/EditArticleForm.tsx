@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ImageUpload from "@/components/admin/ImageUpload";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import AiMetadataAssist from "@/components/admin/AiMetadataAssist";
+import NewsletterDraftAssist from "@/components/admin/NewsletterDraftAssist";
 
 interface Correspondent {
   id: number;
@@ -26,6 +28,7 @@ interface Article {
   readTime: string | null;
   seoTitle: string | null;
   metaDescription: string | null;
+  newsletterDraft: string | null;
   keywords: string | null;
   status: string;
   publishedAt: Date | null;
@@ -227,11 +230,15 @@ export default function EditArticleForm({
         </div>
 
         <div className="space-y-6">
+          <NewsletterDraftAssist articleId={article.id} initialDraft={article.newsletterDraft} />
           {/* TITLE */}
           <section className="rounded-xl bg-white p-6 shadow">
             <label className="mb-2 block text-sm font-semibold text-gray-700">
               Title
             </label>
+            <div className="mb-3">
+              <AiMetadataAssist content={content} onApply={(draft) => { setTitle(draft.headline); setSeoTitle(draft.headline); setMetaDescription(draft.metaDescription); }} />
+            </div>
             <input
               type="text"
               value={title}

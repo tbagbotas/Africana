@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import HLSPlayer from "@/app/components/HLSPlayer";
+import StreamingPlatformLinks from "@/app/components/StreamingPlatformLinks";
+import { availableStreamingPlatforms } from "@/config/streaming";
 
 export default async function LiveTV() {
   const liveTV = await prisma.liveTV.findFirst({
@@ -19,7 +21,7 @@ export default async function LiveTV() {
         <div className="overflow-hidden bg-black">
           <div className="relative aspect-video w-full bg-black">
             {isLive && streamUrl ? (
-              <HLSPlayer src={streamUrl} title={streamTitle} />
+              <HLSPlayer src={streamUrl} title={streamTitle} fallbackLinks={availableStreamingPlatforms} />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center bg-[#080d0b] px-5 text-center">
                 <div className="max-w-lg">
@@ -46,6 +48,12 @@ export default async function LiveTV() {
                         ? "This live broadcast has ended. Visit us again for our next programme."
                         : "Africana Live TV is currently offline. Please check back soon."}
                   </p>
+                  {status === "OFFLINE" && (
+                    <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-gray-300">
+                      The stream is offline. Check our social channels for updates.
+                    </p>
+                  )}
+                  <StreamingPlatformLinks platforms={availableStreamingPlatforms} className="mt-4" />
                 </div>
               </div>
             )}

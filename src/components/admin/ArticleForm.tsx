@@ -8,6 +8,8 @@ import ArticlePreview from "../admin/ArticlePreview";
 import MediaLibrary from "./MediaLibrary";
 import SeoPanel from "./editor/SeoPanel";
 import { useDraft } from "./useDraft";
+import AiMetadataAssist from "./AiMetadataAssist";
+import NewsletterDraftAssist from "./NewsletterDraftAssist";
 
 export default function ArticleForm() {
   const [articleId, setArticleId] = useState<number | null>(null);
@@ -332,6 +334,10 @@ export default function ArticleForm() {
                   Title
                 </label>
 
+                <div className="mb-3">
+                  <AiMetadataAssist content={content} onApply={(draft) => { setTitle(draft.headline); setSeoTitle(draft.headline); setMetaDescription(draft.metaDescription); }} />
+                </div>
+
                 <input
                   type="text"
                   value={title}
@@ -579,6 +585,8 @@ export default function ArticleForm() {
             keywords={keywords}
             setKeywords={setKeywords}
           />
+
+          <NewsletterDraftAssist articleId={articleId} />
 
           {/* PUBLISH BUTTON */}
           <div className="rounded-xl bg-white p-6 shadow">

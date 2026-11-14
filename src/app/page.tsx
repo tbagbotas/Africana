@@ -42,7 +42,7 @@ export default function HomePage() {
 
           <Link
             href="/donate"
-            className="mt-8 inline-flex items-center rounded-lg bg-white px-8 py-4 text-lg font-bold text-green-900 shadow-lg transition hover:bg-green-50"
+            className="mt-8 inline-flex items-center rounded-lg bg-[#996515] px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-[#B8860B]"
           >
             Support Africana TV →
           </Link>

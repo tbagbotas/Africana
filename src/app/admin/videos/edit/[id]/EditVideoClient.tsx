@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import TranscriptReview from "@/components/admin/TranscriptReview";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const categories = [
@@ -28,6 +29,8 @@ interface Video {
   featured: boolean;
   published: boolean;
   publishedAt: string | null;
+  transcriptVtt?: string | null;
+  transcriptApproved?: boolean;
 }
 
 interface PageProps {
@@ -644,6 +647,7 @@ export default function EditVideoPage({ params }: PageProps) {
           </div>
 
         </form>
+        {video && <TranscriptReview id={video.id} type="video" mediaUrl={video.videoUrl} initialTranscript={video.transcriptVtt} initialApproved={video.transcriptApproved} />}
       </div>
     </main>
   );
