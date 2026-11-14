@@ -14,7 +14,7 @@ export default async function LiveTV() {
   const streamTitle = liveTV?.streamTitle || "Africana Live TV";
 
   return (
-    <section className="mx-auto -mt-3 w-full max-w-[1600px] px-3 pb-0 pt-0 sm:-mt-4 sm:px-6 lg:px-8">
+    <section className="mx-auto mt-6 w-full max-w-[1600px] px-3 pb-0 pt-0 sm:mt-8 sm:px-6 lg:px-8">
       <div className="overflow-hidden rounded-xl border border-gray-300 bg-[#07110d] shadow-[0_16px_50px_rgba(0,0,0,0.16)] sm:rounded-2xl">
         <div className="h-1 w-full bg-gradient-to-r from-emerald-700 via-emerald-400 to-yellow-400" />
 
