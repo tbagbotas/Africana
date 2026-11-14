@@ -109,7 +109,7 @@ export default function HLSPlayer({ src, title = "Africana Live TV", fallbackLin
 
       {!loading && !error && (
         <>
-          <div className="absolute inset-0 z-30 h-[166.667%] w-[166.667%] origin-top-left scale-[0.6] sm:h-full sm:w-full sm:scale-100">
+          <div className="absolute inset-0 z-30 h-[200%] w-[200%] origin-top-left scale-[0.5] sm:h-full sm:w-full sm:scale-100">
           <div className="pointer-events-none absolute left-3 top-3 z-30 sm:left-4 sm:top-4">
             <div className="flex items-center gap-2 rounded-md bg-emerald-900/95 px-3 py-1.5 text-[10px] font-extrabold tracking-wide text-white shadow-xl sm:px-4 sm:py-2 sm:text-sm">
               <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
