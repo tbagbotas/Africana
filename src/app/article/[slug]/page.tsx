@@ -14,6 +14,47 @@ interface PageProps {
   }>;
 }
 
+export const dynamic = "force-static";
+export const revalidate = 60;
+
+const siteUrl = "https://www.africanatv.com";
+
+function cleanSocialDescription(value: string | null | undefined): string {
+  return (value || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&#(\d+);/g, (_, code: string) =>
+      String.fromCodePoint(Number(code))
+    )
+    .replace(/&#x([\da-f]+);/gi, (_, code: string) =>
+      String.fromCodePoint(Number.parseInt(code, 16))
+    )
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&quot;/gi, '\"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&amp;/gi, "&")
+    .replace(/\\s+/g, " ")
+    .trim()
+    .slice(0, 200);
+}
+
+function getSocialImageUrl(image: string): string {
+  const url = new URL(image, siteUrl);
+
+  if (
+    url.hostname === "res.cloudinary.com" &&
+    url.pathname.includes("/image/upload/")
+  ) {
+    url.pathname = url.pathname.replace(
+      "/image/upload/",
+      "/image/upload/c_fill,w_1200,h_630,q_auto,f_jpg/"
+    );
+  }
+
+  return url.toString();
+}
+
 const publishedFilter = {
   published: true,
   OR: [
@@ -42,6 +83,7 @@ export async function generateMetadata({
     select: {
       title: true,
       subtitle: true,
+      excerpt: true,
       image: true,
       seoTitle: true,
       metaDescription: true,
@@ -58,12 +100,17 @@ export async function generateMetadata({
     };
   }
 
-  const title = article.seoTitle?.trim() || article.title;
+  const title = article.title;
 
   const description =
-    article.metaDescription?.trim() ||
-    article.subtitle?.trim() ||
+    cleanSocialDescription(
+      article.excerpt || article.metaDescription || article.subtitle
+    ) ||
     "Read the latest African news and stories on Africana.";
+
+  const socialImage = article.image
+    ? getSocialImageUrl(article.image)
+    : undefined;
 
   const keywords: string[] =
     article.keywords
@@ -86,12 +133,12 @@ export async function generateMetadata({
       description,
       type: "article",
       siteName: "Africana",
-      images: article.image
+      images: socialImage
         ? [
             {
-              url: article.image,
+              url: socialImage,
               width: 1200,
-              height: 675,
+              height: 630,
               alt: article.title,
             },
           ]
@@ -99,13 +146,13 @@ export async function generateMetadata({
     },
 
     twitter: {
-      card: article.image
+      card: socialImage
         ? "summary_large_image"
         : "summary",
       title,
       description,
-      images: article.image
-        ? [article.image]
+      images: socialImage
+        ? [socialImage]
         : undefined,
     },
   };
