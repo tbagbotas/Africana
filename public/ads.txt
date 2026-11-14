@@ -1,1 +1,2 @@
-# Placeholder: add an authorized seller record here after receiving the publisher ID.
+
+google.com, pub-6854291921379296, DIRECT, f08c47fec0942fa0
