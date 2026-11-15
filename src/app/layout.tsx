@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   description:
     "AFRICANA TV brings you the latest African news, breaking stories, interviews, documentaries and developments from Africa and around the world.",
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,6 +30,14 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6854291921379296"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body
         suppressHydrationWarning
         className="min-h-full flex flex-col"
