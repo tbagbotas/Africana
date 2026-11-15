@@ -2,10 +2,6 @@
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  
-  experimental: {
-    streamingMetadata: false,
-  },
 
   allowedDevOrigins: ["192.168.2.46", "und-million-broker-quoted.trycloudflare.com"],
 
