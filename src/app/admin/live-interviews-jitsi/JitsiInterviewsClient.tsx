@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
@@ -109,7 +108,7 @@ export default function JitsiInterviewsClient() {
       if (guest?.inviteToken) {
         const url = new URL(
           "/live-interview/jitsi-guest",
-          window.location.origin,
+          "https://www.africanatv.com",
         );
         url.searchParams.set("invite", guest.inviteToken);
         setInviteUrl(url.toString());
@@ -168,7 +167,7 @@ export default function JitsiInterviewsClient() {
 
     const url = new URL(
       "/live-interview/jitsi-guest",
-      window.location.origin,
+      "https://www.africanatv.com",
     );
 
     url.searchParams.set("invite", guest.inviteToken);
