@@ -2,6 +2,10 @@
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  
+  experimental: {
+    streamingMetadata: false,
+  },
 
   allowedDevOrigins: ["192.168.2.46", "und-million-broker-quoted.trycloudflare.com"],
 
@@ -21,8 +25,9 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-           value:
-  "frame-src 'self' https://meet.jit.si https://customer-coo1qvj7j2zkw9sx.cloudflarestream.com https://*.cloudflarestream.com;",          },
+            value:
+              "frame-src 'self' https://meet.jit.si https://customer-coo1qvj7j2zkw9sx.cloudflarestream.com https://*.cloudflarestream.com;",
+          },
         ],
       },
     ];
@@ -30,4 +35,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
