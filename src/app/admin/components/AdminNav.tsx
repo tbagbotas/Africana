@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -20,14 +19,15 @@ export default function AdminNav({
   const isMessages = pathname.startsWith("/admin/messages");
   const isCorrespondents = pathname.startsWith("/admin/correspondents");
   const isLiveInterviews =
-  pathname === "/admin/live-interviews" ||
-  pathname.startsWith("/admin/live-interviews/");
+    pathname === "/admin/live-interviews" ||
+    pathname.startsWith("/admin/live-interviews/");
 
-const isJitsiInterviews =
-  pathname === "/admin/live-interviews-jitsi" ||
-  pathname.startsWith("/admin/live-interviews-jitsi/");
+  const isJitsiInterviews =
+    pathname === "/admin/live-interviews-jitsi" ||
+    pathname.startsWith("/admin/live-interviews-jitsi/");
   const isLiveTV = pathname === "/admin/live" || pathname.startsWith("/admin/live/");
   const isPodcasts = pathname.startsWith("/admin/podcasts");
+  const isVideos = pathname.startsWith("/admin/videos");
   const isDonationSettings = pathname.startsWith(
     "/admin/donation-settings"
   );
@@ -108,18 +108,26 @@ const isJitsiInterviews =
           >
             🎥 Live Guest Interviews
           </Link>
-<Link
-  href="/admin/live-interviews-jitsi"
-  className={linkClass(isJitsiInterviews)}
->
-  🎬 Jitsi Interview Studio
-</Link>
+          
+          <Link
+            href="/admin/live-interviews-jitsi"
+            className={linkClass(isJitsiInterviews)}
+          >
+            🎬 Jitsi Interview Studio
+          </Link>
 
           <Link
             href="/admin/podcasts"
             className={linkClass(isPodcasts)}
           >
             🎙️ Podcasts
+          </Link>
+
+          <Link
+            href="/admin/videos"
+            className={linkClass(isVideos)}
+          >
+            🎬 Videos
           </Link>
         </div>
 
