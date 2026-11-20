@@ -19,6 +19,9 @@ export default async function VideoPlayerPage({ params }: PageProps) {
     notFound();
   }
 
+  // Check if the URL is a YouTube or Vimeo link
+  const isEmbed = video.videoUrl.includes("youtube.com") || video.videoUrl.includes("youtu.be") || video.videoUrl.includes("vimeo.com");
+
   return (
     <>
       <Header />
@@ -31,13 +34,24 @@ export default async function VideoPlayerPage({ params }: PageProps) {
 
           <div className="overflow-hidden rounded-2xl bg-black shadow-xl">
             <div className="relative aspect-video w-full">
-              <iframe
-                src={video.videoUrl}
-                title={video.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 h-full w-full border-0"
-              />
+              {isEmbed ? (
+                <iframe
+                  src={video.videoUrl}
+                  title={video.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 h-full w-full border-0"
+                />
+              ) : (
+                <video
+                  src={video.videoUrl}
+                  controls
+                  autoPlay
+                  className="absolute inset-0 h-full w-full object-contain"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              )}
             </div>
           </div>
 
