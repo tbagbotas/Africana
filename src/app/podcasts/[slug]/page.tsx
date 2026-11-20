@@ -31,10 +31,10 @@ export default async function PodcastPlayerPage({ params }: PageProps) {
           </Link>
 
           <div className="rounded-2xl bg-white p-6 shadow-lg sm:p-10 text-center">
-            {podcast.image && (
+            {podcast.thumbnail && (
               <div className="relative mx-auto mb-8 aspect-square w-full max-w-sm overflow-hidden rounded-xl shadow-md">
                 <Image
-                  src={podcast.image}
+                  src={podcast.thumbnail}
                   alt={podcast.title}
                   fill
                   className="object-cover"
@@ -48,7 +48,7 @@ export default async function PodcastPlayerPage({ params }: PageProps) {
             </h1>
             
             <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-              <span>📅 {new Date(podcast.createdAt).toLocaleDateString("en-GB")}</span>
+              <span>📅 {new Date().toLocaleDateString("en-GB")}</span>
             </div>
 
             {podcast.description && (
@@ -57,15 +57,17 @@ export default async function PodcastPlayerPage({ params }: PageProps) {
               </p>
             )}
 
-            <div className="mt-10 w-full overflow-hidden rounded-xl bg-gray-50 p-4">
-              <audio 
-                src={podcast.audioUrl} 
-                controls 
-                className="w-full"
-              >
-                Your browser does not support the audio element.
-              </audio>
-            </div>
+            {podcast.audioUrl && (
+              <div className="mt-10 w-full overflow-hidden rounded-xl bg-gray-50 p-4">
+                <audio 
+                  src={podcast.audioUrl} 
+                  controls 
+                  className="w-full"
+                >
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            )}
           </div>
 
         </div>

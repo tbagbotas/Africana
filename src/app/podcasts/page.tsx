@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function PodcastsPage() {
   const podcasts = await prisma.podcast.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { id: "desc" },
   });
 
   return (
@@ -34,9 +34,9 @@ export default async function PodcastsPage() {
                   className="group overflow-hidden rounded-2xl bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl"
                 >
                   <div className="relative aspect-square bg-gray-200">
-                    {podcast.image ? (
+                    {podcast.thumbnail ? (
                       <Image
-                        src={podcast.image}
+                        src={podcast.thumbnail}
                         alt={podcast.title}
                         fill
                         className="object-cover transition duration-500 group-hover:scale-105"
