@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const token = searchParams.get("token")?.trim();
+  const token = (searchParams.get("invite") || searchParams.get("token"))?.trim();
 
   if (!token || token.length !== 64 || !/^[a-f0-9]+$/i.test(token)) {
     return NextResponse.json(
