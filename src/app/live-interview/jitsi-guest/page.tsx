@@ -18,18 +18,18 @@ function GuestRoom() {
       return;
     }
 
-    // Fetch the room details using the invite token
-    fetch(`/api/jitsi-interviews?token=${inviteToken}`)
+    // CORRECTED URL: Added /invite
+    fetch(`/api/jitsi-interviews/invite?token=${inviteToken}`)
       .then((res) => {
         if (!res.ok) throw new Error("Invalid or expired invitation link.");
         return res.json();
       })
       .then((data) => {
-        // Assuming your API returns the room name and guest name
-        if (data.roomName) {
+        // CORRECTED DATA PARSING: The API returns { interview: {...}, guest: {...} }
+        if (data.interview && data.interview.roomName) {
           setRoomData({
-            roomName: data.roomName,
-            guestName: data.guestName || "Guest",
+            roomName: data.interview.roomName,
+            guestName: data.guest?.name || "Guest",
           });
         } else {
           throw new Error("Room details not found.");
@@ -62,7 +62,6 @@ function GuestRoom() {
     );
   }
 
-  // If we have the room data, load the Jitsi iframe
   return (
     <div className="flex h-screen flex-col bg-black">
       <div className="flex items-center justify-between bg-gray-950 px-4 py-3 text-white shadow-md">
