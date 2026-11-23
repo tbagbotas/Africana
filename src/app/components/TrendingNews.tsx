@@ -101,14 +101,14 @@ export default async function TrendingNews() {
                 href={`/article/${article.slug}`}
                 className="block"
               >
-                <div className="relative h-56 overflow-hidden">
+<div className="relative aspect-video overflow-hidden">
                   <Image
                     src={article.image || "/images/africa1.jpg"}
                     alt={article.title}
                     fill
                     unoptimized
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                    className="object-cover transition duration-500 group-hover:scale-105"
+           className="object-contain object-center"
                   />
 
                   <div className="absolute left-4 top-4">

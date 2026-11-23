@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -16,9 +17,7 @@ export default async function LatestNews() {
     where: {
       published: true,
       OR: [
-        {
-          status: "published",
-        },
+        { status: "published" },
         {
           status: "scheduled",
           publishedAt: {
@@ -71,14 +70,14 @@ export default async function LatestNews() {
             >
               <div className="sm:flex">
                 {/* Article Image */}
-                <div className="relative h-56 w-full shrink-0 sm:h-auto sm:w-56 lg:w-64">
+               <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-gray-100 sm:aspect-auto sm:min-h-[260px] sm:w-[40%] lg:w-[42%]">
                   <Image
                     src={article.image || "/images/africa1.jpg"}
                     alt={article.title}
                     fill
                     unoptimized
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 224px, 256px"
-                    className="object-cover"
+              className="object-contain object-center"
                   />
 
                   {/* Breaking Badge */}
@@ -103,24 +102,20 @@ export default async function LatestNews() {
                 {/* Article Content */}
                 <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
                   <div>
-                    {/* Category */}
                     <span className="inline-block rounded-full bg-emerald-700 px-3 py-1 text-xs font-semibold text-white">
                       {article.category || "Africa"}
                     </span>
 
-                    {/* Title */}
                     <h3 className="mt-3 text-xl font-bold leading-tight sm:text-2xl">
                       {article.title}
                     </h3>
 
-                    {/* Subtitle */}
                     {article.subtitle && (
                       <p className="mt-2 font-medium text-gray-700">
                         {article.subtitle}
                       </p>
                     )}
 
-                    {/* Excerpt */}
                     {excerpt && (
                       <p className="mt-3 line-clamp-3 text-gray-600">
                         {excerpt}
@@ -129,7 +124,6 @@ export default async function LatestNews() {
                   </div>
 
                   <div>
-                    {/* Article Information */}
                     <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500">
                       <span>
                         By {article.author || "Africana News"}
@@ -143,13 +137,14 @@ export default async function LatestNews() {
 
                       <span>
                         Published{" "}
-                        {new Date(
-                          article.publishedAt
-                        ).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                        {new Date(article.publishedAt).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          }
+                        )}
                       </span>
 
                       <span>
@@ -157,7 +152,6 @@ export default async function LatestNews() {
                       </span>
                     </div>
 
-                    {/* Read Story Button */}
                     <Link
                       href={`/article/${article.slug}`}
                       className="mt-5 inline-block rounded-lg bg-emerald-700 px-5 py-3 font-semibold text-white transition hover:bg-emerald-800"

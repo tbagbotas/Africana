@@ -44,13 +44,13 @@ export default function CategoryPage({
                 className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg"
               >
                 <Link href={`/article/${article.slug}`}>
-                  <div className="relative h-64 w-full overflow-hidden bg-gray-100 sm:h-72">
+                 <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
                     <Image
                       src={article.image || "/placeholder.jpg"}
                       alt={article.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                      className="object-cover transition duration-300 group-hover:scale-105"
+                   className="object-contain object-center"
                     />
                   </div>
                 </Link>
