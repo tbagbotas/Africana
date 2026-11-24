@@ -6,6 +6,7 @@ import type { Article } from "../../../../generated/prisma/client";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ShareButtons from "../../components/ShareButtons";
 import { prisma } from "@/lib/prisma";
 
 interface PageProps {
@@ -34,7 +35,7 @@ function cleanSocialDescription(value: string | null | undefined): string {
     .replace(/&lt;/gi, "<")
     .replace(/&gt;/gi, ">")
     .replace(/&amp;/gi, "&")
-    .replace(/\\s+/g, " ")
+    .replace(/\s+/g, " ")
     .trim()
     .slice(0, 200);
 }
@@ -194,11 +195,6 @@ export default async function ArticlePage({
       take: 3,
     });
 
-  /*
-   * Clean tags before displaying them.
-   * This prevents accidental SEO text from
-   * appearing inside the visible Tags section.
-   */
   const cleanTags: string[] =
     article.tags
       ?.split(",")
@@ -348,6 +344,11 @@ export default async function ArticlePage({
                   article.content ||
                   "<p>No article content available.</p>",
               }}
+            />
+            
+            <ShareButtons 
+              url={`https://www.africanatv.com/article/${slug}`} 
+              title={article.title} 
             />
 
             {/* TAGS */}
