@@ -1,56 +1,50 @@
-export const dynamic = "force-dynamic";
-
-import Link from "next/link";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import TrendingNews from "./components/TrendingNews";
 import LatestNews from "./components/LatestNews";
 import LiveTV from "./components/LiveTV";
 import Newsletter from "./components/Newsletter";
-import Footer from "./components/Footer";
+import { prisma } from "@/lib/prisma";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  // 1. Fetch all published articles in one go
+  const articles = await prisma.article.findMany({
+    where: { published: true },
+    orderBy: { publishedAt: "desc" },
+  });
+
+  // 2. Assign them to sections without overlapping
+  const heroArticle = articles[0];
+  const trendingArticles = articles.slice(1, 7); // Next 6 articles
+  const latestArticles = articles.slice(7, 19); // Next 12 articles
+
   return (
-    <main className="min-h-screen bg-gray-100">
+    <>
       <Header />
-
-      <Hero />
-      <TrendingNews />
-      <LatestNews />
-      
-      <LiveTV />
-
-      {/* Support Africana TV */}
-      <section className="bg-green-900 px-6 py-16 text-white">
-        <div className="mx-auto max-w-6xl text-center">
-          <div className="mb-4 text-4xl">❤️</div>
-
-          <h2 className="text-3xl font-bold md:text-4xl">
-            Support Africana TV
-          </h2>
-
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-green-50">
-            Help us continue producing independent African journalism,
-            video reports, live broadcasts, podcasts and stories from
-            Africa and around the world.
-          </p>
-
-          <p className="mx-auto mt-3 max-w-2xl text-green-100">
-            Every contribution helps support journalism, reporting,
-            technology and the continued development of Africana TV.
-          </p>
-
-          <Link
-            href="/donate"
-            className="mt-8 inline-flex items-center rounded-lg bg-[#996515] px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-[#B8860B]"
-          >
-            Support Africana TV →
-          </Link>
+      <main className="min-h-screen bg-gray-50">
+        {/* Pass the single hero article to Hero */}
+        {heroArticle && <Hero article={heroArticle} />}
+        
+        <div className="mx-auto max-w-7xl px-4 lg:px-6">
+          <div className="grid gap-8 lg:grid-cols-3 py-8">
+            <div className="lg:col-span-2">
+              {/* Pass the specific trending articles */}
+              <TrendingNews articles={trendingArticles} />
+            </div>
+            <div>
+               {/* You can put a sidebar here later */}
+            </div>
+          </div>
         </div>
-      </section>
 
-      <Newsletter />
+        <LatestNews articles={latestArticles} />
+        <LiveTV />
+        <Newsletter />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
