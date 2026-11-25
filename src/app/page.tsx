@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import TrendingNews from "./components/TrendingNews";
 import LatestNews from "./components/LatestNews";
 import LiveTV from "./components/LiveTV";
+import HomeVideos from "./components/HomeVideos";
 import Newsletter from "./components/Newsletter";
 import { prisma } from "@/lib/prisma";
 
@@ -41,6 +42,7 @@ export default async function Home() {
         </div>
 
         <LatestNews articles={latestArticles} />
+      <HomeVideos />
         <LiveTV />
         <Newsletter />
       </main>
